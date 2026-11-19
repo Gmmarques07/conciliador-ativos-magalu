@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apresentação Executiva • Conciliador de Gestão de Ativos (Oracle GL × FA)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8fafc; color: #0f172a; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .magalu-bar {
+      height: 4px;
+      background: linear-gradient(90deg, #0086ff 0%, #6366f1 35%, #ec4899 70%, #f59e0b 100%);
+    }
+    .slide-pill.active {
+      background-color: #0f172a;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <div class="magalu-bar w-full"></div>
+
+  <!-- HEADER EXECUTIVO -->
+  <header class="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-30 shadow-2xs">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <div class="w-9 h-9 rounded-lg bg-[#0086ff] flex items-center justify-center text-white font-bold text-base shadow-xs">M</div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold text-slate-900 tracking-tight">Conciliador Inteligente de Gestão de Ativos</h1>
+            <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">Documentação Executiva · CSC Contábil</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Arquitetura, Regras de Negócio e Guia de Uso — Razão Contábil Oracle (<code class="mono text-slate-700">GL</code>) × Gerenciador de Ativos (<code class="mono text-slate-700">Oracle FA</code>)
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <a href="conciliador_ativos_magalu.html" class="px-3.5 py-2 rounded-lg bg-[#0086ff] hover:bg-blue-600 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-2xs">
+          <span>Abrir Conciliador de Ativos</span>
+          <span>↗</span>
+        </a>
+        <div class="h-5 w-px bg-slate-200"></div>
+        <button onclick="prevSlide()" class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 cursor-pointer">◀ Anterior</button>
+        <span id="slideCounter" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-800 text-xs font-bold mono">1 / 5</span>
+        <button onclick="nextSlide()" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold cursor-pointer">Próximo ▶</button>
+      </div>
+    </div>
+
+    <!-- NAVEGAÇÃO POR TÓPICOS -->
+    <div class="max-w-7xl mx-auto flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-slate-100 text-xs">
+      <button onclick="goToSlide(0)" class="slide-pill active px-3 py-1.5 rounded-md font-semibold text-slate-600 hover:bg-slate-100 transition">1. Visão Executiva & Escopo</button>
+      <button onclick="goToSlide(1)" class="slide-pill px-3 py-1.5 rounded-md font-semibold text-slate-600 hover:bg-slate-100 transition">2. Como Funciona Cada Parte da Tela</button>
+      <button onclick="goToSlide(2)" class="slide-pill px-3 py-1.5 rounded-md font-semibold text-slate-600 hover:bg-slate-100 transition">3. Livros de Ativo (Empresas) & Contas</button>
+      <button onclick="goToSlide(3)" class="slide-pill px-3 py-1.5 rounded-md font-semibold text-slate-600 hover:bg-slate-100 transition">4. Regras de Conciliação (RI × PO & Divergências)</button>
+      <button onclick="goToSlide(4)" class="slide-pill px-3 py-1.5 rounded-md font-semibold text-slate-600 hover:bg-slate-100 transition">5. Arquitetura BigQuery D-1 & Evolução Oracle Real-Time</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto w-full p-6 flex-1">
+
+    <!-- SLIDE 1: VISÃO EXECUTIVA -->
+    <section class="slide space-y-6" id="slide-0">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">1. Sumário Executivo para a Gerência</span>
+            <h2 class="text-xl font-bold text-slate-900 mt-0.5">O que é o Conciliador de Gestão de Ativos e qual problema ele resolve?</h2>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
+            100% Dados Reais de Produção (Oracle EBS / BigQuery)
+          </span>
+        </div>
+
+        <p class="text-sm text-slate-600 mt-4 leading-relaxed">
+          O <strong>Conciliador de Gestão de Ativos</strong> automatiza o batimento entre o <strong>Razão Contábil do Oracle EBS (<code class="mono">GL</code>)</strong> e o módulo auxiliar <strong>Gerenciador de Ativos (<code class="mono">Oracle Fixed Assets - FA</code>)</strong> em todas as empresas do grupo. Antes, o analista precisava exportar relatórios concorrentes extensos e cruzar manualmente Notas Fiscais, Pedidos de Compra (<code class="mono">PO</code>) e Recebimentos Integrados (<code class="mono">RI</code>) para descobrir por que o saldo contábil divergia do relatório patrimonial.
+        </p>
+
+        <!-- KPIs EXECUTIVOS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="text-xs font-medium text-slate-500">Patrimônio Bruto Auditado (11-26)</div>
+            <div class="mono text-2xl font-bold text-slate-900 mt-1">R$ 6,16 Bilhões</div>
+            <div class="text-[11px] text-slate-500 mt-1">Imobilizado, Intangível e Transitórias</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="text-xs font-medium text-slate-500">Plaquetas / Bens Ativos no FA</div>
+            <div class="mono text-2xl font-bold text-blue-600 mt-1">4.544.142</div>
+            <div class="text-[11px] text-slate-500 mt-1">Rastreados por <code class="mono">NR_ATIVO</code> e <code class="mono">NR_NFF</code></div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="text-xs font-medium text-slate-500">Livros Patrimoniais (<code class="mono">FA Books</code>)</div>
+            <div class="mono text-2xl font-bold text-slate-900 mt-1">10 Empresas</div>
+            <div class="text-[11px] text-slate-500 mt-1"><code class="mono">001 ML</code>, <code class="mono">012 MGC</code>, <code class="mono">004 MLOG</code>, <code class="mono">013 KBUM</code>...</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
+            <div class="text-xs font-medium text-slate-500">Histórico Mensal de Adições</div>
+            <div class="mono text-2xl font-bold text-emerald-600 mt-1">Jan a Nov/2026</div>
+            <div class="text-[11px] text-slate-500 mt-1">Visão Acumulada + Adições do Mês</div>
+          </div>
+        </div>
+
+        <!-- OS 3 PILARES DE ENTREGA -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div class="p-4 rounded-xl border border-slate-200 bg-white">
+            <div class="text-xs font-bold uppercase text-blue-600 mb-1">Pilar 1 · Batimento de Custo</div>
+            <h3 class="text-sm font-bold text-slate-900">Razão Contábil (GL) × Adições (FA)</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Compara o saldo ou movimento líquido de cada Conta Contábil de 10 dígitos (<code class="mono">120501xxxx</code> e <code class="mono">120504xxxx</code>) com a soma das plaquetas ativadas no Gerenciador de Ativos.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-200 bg-white">
+            <div class="text-xs font-bold uppercase text-amber-600 mb-1">Pilar 2 · Rastreabilidade Nota a Nota</div>
+            <h3 class="text-sm font-bold text-slate-900">De-Para Automático RI (<code class="mono">CLL F189</code>) ↔ <code class="mono">PO</code></h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Une o lançamento do Recebimento Integrado no Razão com as dezenas de plaquetas geradas no FA através do número da Nota Fiscal (<code class="mono">NR_NFF</code>), isolando diferenças reais de timing ou ajuste.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-200 bg-white">
+            <div class="text-xs font-bold uppercase text-emerald-600 mb-1">Pilar 3 · Depreciação & Transitórias</div>
+            <h3 class="text-sm font-bold text-slate-900">Espelhamento DRE × Acumulada</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Garante que toda despesa de depreciação lançada na DRE (<code class="mono">3319xxxx</code>) corresponde ao crédito na Depreciação Acumulada e audita a baixa das contas transitórias (<code class="mono">1205019999</code>).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: COMO FUNCIONA CADA PARTE DA TELA -->
+    <section class="slide hidden space-y-6" id="slide-1">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">2. Guia Visual de Navegação</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Como funciona cada bloco e aba do Conciliador de Ativos</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-900 uppercase">1. Seletor de Período: Acumulado vs. Adições do Mês</span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold">Topo da Tela</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              • <strong>Novembro 2026 (Acumulado):</strong> Mostra a foto completa do Balanço Patrimonial — todos os bens comprados na história da companhia que continuam ativos (R$ 6,16 Bilhões).<br>
+              • <strong>Novembro/2026 a Janeiro/2026 (Adições do Mês):</strong> Mostra <strong>apenas as notas fiscais e bens ativados naquele mês específico</strong>, ideal para conciliar o fechamento mensal (<code class="mono">Débito − Crédito</code> do mês no Razão contra novas ativações no FA).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-900 uppercase">2. Filtros de Empresa, Grupo e Status</span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold">Topo da Tela</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              • <strong>Empresa (<code class="mono">LIVRO_DE_ATIVO</code>):</strong> Filtra os dados por livro patrimonial (<code class="mono">001 ML_ATIVO FIXO</code>, <code class="mono">012 MGC_ATIVO FIXO</code>, <code class="mono">004 MLOG_ATIVO FIXO</code>, etc.).<br>
+              • <strong>Grupo Contábil:</strong> Separa <strong>Imobilizado</strong> (máquinas, móveis, TI), <strong>Intangível</strong> (softwares, marcas) e <strong>Transitórias</strong> (obras e bens em andamento).<br>
+              • <strong>Status:</strong> Isola com 1 clique apenas as contas ou notas <strong>Com Divergência</strong>.
+            </p>
+          </div>
+        </div>
+
+        <!-- AS 3 ABAS INFERIORES -->
+        <div class="space-y-3 pt-2">
+          <h3 class="text-sm font-bold text-slate-900">As 3 Abas Principais de Auditoria:</h3>
+
+          <div class="p-4 rounded-xl border-l-4 border-l-blue-600 border border-slate-200 bg-white">
+            <div class="font-bold text-sm text-slate-900">Aba 1: Contas Contábeis (Visão Executiva por Conta de 10 dígitos)</div>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Lista cada conta contábil (<code class="mono">1205040011</code>, <code class="mono">1205010006</code>, <code class="mono">1205010004</code>, etc.), a empresa, a quantidade de plaquetas no FA, o Valor no Razão (GL), o Valor no Ativo (FA) e a Diferença. <strong>Dica:</strong> Ao clicar em qualquer linha desta tabela, o sistema abre automaticamente a Aba 2 filtrada para aquela conta.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border-l-4 border-l-amber-500 border border-slate-200 bg-white">
+            <div class="font-bold text-sm text-slate-900">Aba 2: Notas & Lançamentos + Gaveta Lateral de Plaquetas (Drill-Down)</div>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Mostra as Notas Fiscais (<code class="mono">NR_NFF</code>), o Pedido de Compra (<code class="mono">NR_PO</code>), o Fornecedor, o valor contabilizado no Razão GL vs. valor ativado no FA e o diagnóstico da diferença. <strong>Ao clicar em uma Nota Fiscal</strong>, abre-se uma gaveta lateral direita detalhando as plaquetas individuais (<code class="mono">NR_ATIVO</code>), a vida útil e a regra contábil aplicada.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border-l-4 border-l-emerald-600 border border-slate-200 bg-white">
+            <div class="font-bold text-sm text-slate-900">Aba 3: Depreciação & Reclassificações (Dinâmica por Competência e Empresa)</div>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Divide-se em duas tabelas:<br>
+              • <strong>Esquerda (Espelhamento DRE × Acumulada):</strong> Prova que o débito lançado na conta de despesa de depreciação na DRE (<code class="mono">3319010001</code>, <code class="mono">3319020005</code>) bate ao centavo com o crédito na conta de Depreciação Acumulada do FA. Na visão acumulada de Novembro, detalha inclusive quanto da depreciação do mês veio de cada safra de ativação (<code class="mono">11/2026</code>, <code class="mono">10/2026</code>, <code class="mono">09/2026</code>, <code class="mono">08/2026</code>).<br>
+              • <strong>Direita (Reclassificações da Transitória):</strong> Audita a saída dos itens da conta transitória (<code class="mono">1205019999</code>) para as contas definitivas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: LIVROS DE ATIVO E CONTAS -->
+    <section class="slide hidden space-y-6" id="slide-2">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs space-y-4">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">3. Estrutura Corporativa no Oracle FA</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Mapeamento Oficial dos 10 Livros de Ativo (<code class="mono">LIVRO_DE_ATIVO</code>)</h2>
+        </div>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-semibold text-slate-500 uppercase">
+                <th class="py-3 px-4">Empresa (<code class="mono">SEGMENT1</code>)</th>
+                <th class="py-3 px-4">Livro Oficial Oracle FA (<code class="mono">LIVRO_DE_ATIVO</code>)</th>
+                <th class="py-3 px-4">Unidade de Negócio</th>
+                <th class="py-3 px-4 text-right">Qtd. Plaquetas (11-26)</th>
+                <th class="py-3 px-4 text-right">Custo Ativado FA (R$)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="py-2.5 px-4 mono font-bold text-blue-600">001</td>
+                <td class="py-2.5 px-4 mono font-semibold">ML_ATIVO FIXO</td>
+                <td class="py-2.5 px-4">Magazine Luiza S/A (Lojas, CDs e Matriz)</td>
+                <td class="py-2.5 px-4 text-right mono">4.439.123</td>
+                <td class="py-2.5 px-4 text-right mono font-semibold">R$ 5.645.967.559,91</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4 mono font-bold text-blue-600">012</td>
+                <td class="py-2.5 px-4 mono font-semibold">MGC_ATIVO FIXO</td>
+                <td class="py-2.5 px-4">Magalu Cloud (Ledger 2042 · Data Centers & Cloud)</td>
+                <td class="py-2.5 px-4 text-right mono">26.951</td>
+                <td class="py-2.5 px-4 text-right mono font-semibold">R$ 397.168.194,03</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4 mono font-bold text-blue-600">013</td>
+                <td class="py-2.5 px-4 mono font-semibold">KBUM_ATIVO FIXO</td>
+                <td class="py-2.5 px-4">KaBuM! Comércio Eletrônico</td>
+                <td class="py-2.5 px-4 text-right mono">10.284</td>
+                <td class="py-2.5 px-4 text-right mono font-semibold">R$ 143.592.414,56</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4 mono font-bold text-blue-600">004</td>
+                <td class="py-2.5 px-4 mono font-semibold">MLOG_ATIVO FIXO</td>
+                <td class="py-2.5 px-4">Magalog (Logística e Frota Dedicada)</td>
+                <td class="py-2.5 px-4 text-right mono">60.315</td>
+                <td class="py-2.5 px-4 text-right mono font-semibold">R$ 97.531.941,72</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4 mono font-bold text-blue-600">007</td>
+                <td class="py-2.5 px-4 mono font-semibold">SBOX_ATIVO FIXO</td>
+                <td class="py-2.5 px-4">Smartbox / Consórcio Magalu</td>
+                <td class="py-2.5 px-4 text-right mono">13.125</td>
+                <td class="py-2.5 px-4 text-right mono font-semibold">R$ 18.146.284,68</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4 mono font-bold text-blue-600">009</td>
+                <td class="py-2.5 px-4 mono font-semibold">CTEC_ATIVO FIXO</td>
+                <td class="py-2.5 px-4">Canaltech</td>
+                <td class="py-2.5 px-4 text-right mono">45</td>
+                <td class="py-2.5 px-4 text-right mono font-semibold">R$ 3.849.873,82</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-4 mono font-bold text-slate-500">005 / 006 / 008 / 010</td>
+                <td class="py-2.5 px-4 mono text-slate-600">MPAY / STOQ / HUB / JNRD_ATIVO FIXO</td>
+                <td class="py-2.5 px-4 text-slate-600">Magalupay, Stoq, Hub Fintech e Jovem Nerd</td>
+                <td class="py-2.5 px-4 text-right mono text-slate-500">Integrados</td>
+                <td class="py-2.5 px-4 text-right mono text-slate-600">Catálogo Ativo no Seletor</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: REGRAS DE CONCILIAÇÃO E DESCOBERTAS -->
+    <section class="slide hidden space-y-6" id="slide-3">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs space-y-4">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">4. Inteligência Contábil Aplicada</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">As 4 Regras de Negócio que Explicam 100% das Diferenças entre Razão (GL) e Ativo (FA)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl border border-blue-200 bg-blue-50/40 space-y-1.5">
+            <div class="text-xs font-bold text-blue-800 uppercase">Regra 1 · O Pulo do Gato: RI (CLL F189) × Pedido (NR_PO)</div>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Quando uma nota entra pelo Recebimento Integrado (<code class="mono">ORIGEM = CLL F189 INTEGRATED RCV</code>), o Razão grava o <strong>número da operação do RI</strong> (ex.: <code class="mono">E003:2431-Item Doc 70924</code>), mas o FA grava na coluna de pedido o <strong>número do Pedido de Compra</strong> (<code class="mono">PO 2535</code>). O Conciliador amarra os dois lados pela coluna <code class="mono">NR_NFF</code> (<code class="mono">70924</code>), localizando automaticamente o ativo <code class="mono">6195605</code> (<code class="mono">R$ 56.269,88</code>).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/40 space-y-1.5">
+            <div class="text-xs font-bold text-amber-800 uppercase">Regra 2 · Timing Recebimento GL × Ativação FA (Mês Seguinte)</div>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Notas recebidas no final do mês debitam imediatamente a conta de ativo no Razão GL via RI/Payables, mas só viram plaqueta no FA após o processamento da fila <em>Mass Additions</em> no mês seguinte (ex.: notas recebidas em Jan/2026 na Magalu Cloud que foram ativadas no FA em Mar/2026 e Abr/2026).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-purple-200 bg-purple-50/40 space-y-1.5">
+            <div class="text-xs font-bold text-purple-800 uppercase">Regra 3 · Passagem pela Conta Transitória (1205019999)</div>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Determinados bens entram inicialmente na conta transitória <code class="mono">1205019999</code> (Bens a Imobilizar) e depois são reclassificados para a conta definitiva (<code class="mono">1205010006</code>). O Conciliador cruza as duas pontas (ex.: <code class="mono">R$ 88.743,88</code> em Jul/2026 na Emp. <code class="mono">012</code>) para mostrar que o saldo combinado está íntegro.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 space-y-1.5">
+            <div class="text-xs font-bold text-emerald-800 uppercase">Regra 4 · Lotes de Ajuste de Custo (Adjustment) & Dízimas</div>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Quando o analista altera o custo de um bem já ativado (por desconto no pagamento ou expurgo de imposto), o FA gera um lote <code class="mono">ORIGEM = Assets / CATEGORIA = Adjustment</code> no Razão GL. Além disso, notas fiscais divididas em dezenas de plaquetas geram diferenças de <code class="mono">R$ 0,01</code> a <code class="mono">R$ 0,04</code> tratadas automaticamente pela tolerância de arredondamento.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: ARQUITETURA E PRÓXIMO PASSO (ORACLE DIRETO) -->
+    <section class="slide hidden space-y-6" id="slide-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs space-y-5">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">5. Arquitetura de Dados & Evolução Tecnológica</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Fase 1 (BigQuery D-1 no Ar) ➔ Fase 2 (Conexão Direta Oracle EBS em Tempo Real)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded">Fase 1 · Homologada e No Ar</span>
+              <span class="mono text-xs text-slate-500">Latência: D-1</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">Extração via Data Lake (BigQuery <code class="mono">maga-bigdata</code>)</h3>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
+              <li><strong>Tabela FA:</strong> <code class="mono">maga-bigdata.mlpebs.xxml_fa_asset_report_exec</code> (Espelho da execução do relatório oficial <em>ML_FA_GERENCIADOR DE ATIVOS</em>).</li>
+              <li><strong>Tabela GL:</strong> <code class="mono">maga-bigdata.gestao_despesas.razao_contabil_mgc</code>.</li>
+              <li><strong>Vantagem:</strong> Zero impacto no banco transacional e disponibilidade imediata para prototipação e validação histórica de todas as safras de 2026.</li>
+              <li><strong>Limitação conhecida:</strong> Depende da última execução do relatório concorrente no Oracle e do corte de replicação <code class="mono">D-1</code>.</li>
+            </ul>
+          </div>
+
+          <div class="p-5 rounded-xl border-2 border-blue-500 bg-blue-50/20 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase text-blue-700 bg-blue-100 px-2.5 py-1 rounded">Fase 2 · Próximo Passo</span>
+              <span class="mono text-xs text-blue-700 font-semibold">Latência: Tempo Real (0s)</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">Conexão Direta Oracle EBS (<code class="mono">python-oracledb</code>)</h3>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4 leading-relaxed">
+              <li><strong>Leitura Direta no GL:</strong> Consulta online nas tabelas <code class="mono">GL_JE_LINES</code>, <code class="mono">GL_JE_HEADERS</code>, <code class="mono">GL_JE_BATCHES</code> e <code class="mono">GL_CODE_COMBINATIONS</code> (idêntico ao PL/SQL Developer).</li>
+              <li><strong>Leitura Direta no FA:</strong> Consulta online nas tabelas <code class="mono">FA_ADDITIONS_B</code>, <code class="mono">FA_BOOKS</code>, <code class="mono">FA_ASSET_INVOICES</code> e <code class="mono">FA_DEPRN_SUMMARY</code>, sem depender que alguém rode o relatório concorrente manualmente.</li>
+              <li><strong>Segurança & Governança:</strong> Conexão 100% <em>Read-Only</em> (<code class="mono">SELECT</code>), mantendo a regra de <em>Zero Direct Writes</em> (ajustes exclusivamente via API oficial do Kirk).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 5;
+
+    function updateSlides() {
+      for (let i = 0; i < totalSlides; i++) {
+        const el = document.getElementById(`slide-${i}`);
+        if (el) el.classList.toggle('hidden', i !== currentSlide);
+      }
+      document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+      const pills = document.querySelectorAll('.slide-pill');
+      pills.forEach((p, idx) => {
+        p.classList.toggle('active', idx === currentSlide);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlides();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlides();
+    }
+
+    function goToSlide(idx) {
+      currentSlide = idx;
+      updateSlides();
+    }
+  </script>
+</body>
+</html>
