@@ -924,7 +924,82 @@
   }
 ];
 
-    const MESES_ORDEM = [
+    
+    // Indicador dos Últimos 7 Dias (Extraído de gl.gl_je_lines por TRUNC(creation_date) vs fa.fa_adjustments em 19/11/2026)
+    const ULTIMOS_7_DIAS_REAIS = [
+      {
+        diaIso: "2026-11-13",
+        diaSemana: "Sex",
+        dataCurta: "13/11",
+        janela: "D-6 (> 48h)",
+        porEmp: {
+          "001": { gl: 716403.00, fa: 716403.00, dif: 0.00, qtd: 14, status: "CONCILIADO", nota: "100% Conciliado (Ingram + Obras)" },
+          "012": { gl: 118356.53, fa: 0.00,      dif: 118356.53, qtd: 3, status: "FORA_SLA", nota: "Doc 1583,02 Payspace pendente no livro MGC" },
+          "007": { gl: 88504.62,  fa: 0.00,       dif: 88504.62,  qtd: 1, status: "FORA_SLA", nota: "Software pendente no FA da Smartbox" },
+          "004": { gl: 55788.57,  fa: 0.00,       dif: 55788.57,  qtd: 3, status: "FORA_SLA", nota: "Obras/Móveis pendente no livro MLOG" }
+        }
+      },
+      {
+        diaIso: "2026-11-14",
+        diaSemana: "Sáb",
+        dataCurta: "14/11",
+        janela: "D-5 (> 48h)",
+        porEmp: {
+          "001": { gl: 7496.26, fa: 7496.26, dif: 0.00, qtd: 5, status: "CONCILIADO", nota: "5 NFFs Reforma 100% ativadas" }
+        }
+      },
+      {
+        diaIso: "2026-11-15",
+        diaSemana: "Dom",
+        dataCurta: "15/11",
+        janela: "D-4 (> 48h)",
+        porEmp: {
+          "001": { gl: 93760.00,  fa: 93760.00,  dif: 0.00, qtd: 8, status: "CONCILIADO", nota: "8 medições 100% ativadas" },
+          "004": { gl: 102300.00, fa: 0.00,      dif: 102300.00, qtd: 4, status: "FORA_SLA", nota: "Medições Magalog pendentes no livro MLOG" }
+        }
+      },
+      {
+        diaIso: "2026-11-16",
+        diaSemana: "Seg",
+        dataCurta: "16/11",
+        janela: "D-3 (> 48h)",
+        porEmp: {
+          "001": { gl: 60843.80, fa: 60843.80, dif: 0.00, qtd: 15, status: "CONCILIADO", nota: "15 lançamentos 100% ativados" },
+          "004": { gl: 19393.02, fa: 0.00,     dif: 19393.02, qtd: 9,  status: "FORA_SLA", nota: "Lançamentos Magalog pendentes no livro MLOG" }
+        }
+      },
+      {
+        diaIso: "2026-11-17",
+        diaSemana: "Ter",
+        dataCurta: "17/11",
+        janela: "D-2 (> 48h)",
+        porEmp: {
+          "001": { gl: 19021.01, fa: 19021.01, dif: 0.00, qtd: 20, status: "CONCILIADO", nota: "20 lançamentos 100% ativados" },
+          "013": { gl: 18656.25, fa: 0.00,     dif: 18656.25, qtd: 3,  status: "FORA_SLA", nota: "3 lançamentos KaBuM! pendentes no FA" }
+        }
+      },
+      {
+        diaIso: "2026-11-18",
+        diaSemana: "Qua",
+        dataCurta: "18/11",
+        janela: "Ontem (D-1 · SLA)",
+        porEmp: {
+          "001": { gl: 15952429.85, fa: 15991106.55, dif: -38676.70, qtd: 269, status: "FILA_RECORRENTE", nota: "Topsort (11,1M) e NTT conciliados; corte noturno D-1" },
+          "004": { gl: 90849.32,    fa: 0.00,         dif: 90849.32,  qtd: 13,  status: "FORA_SLA",         nota: "Lançamentos Magalog pendentes no livro MLOG" }
+        }
+      },
+      {
+        diaIso: "2026-11-19",
+        diaSemana: "Qui",
+        dataCurta: "19/11",
+        janela: "Hoje (D-0 · Tempo Real)",
+        porEmp: {
+          "001": { gl: 7234398.50, fa: 7224413.94, dif: 9984.56, qtd: 83, status: "FILA_RECORRENTE", nota: "Entradas D-0 em fila de integração noturna" }
+        }
+      }
+    ];
+
+const MESES_ORDEM = [
       { key: "ADICOES_01_26", mes: "01/2026", curto: "Jan" },
       { key: "ADICOES_02_26", mes: "02/2026", curto: "Fev" },
       { key: "ADICOES_03_26", mes: "03/2026", curto: "Mar" },
@@ -1158,11 +1233,11 @@
       document.getElementById("countTabNotas").innerText = notas.length;
       document.getElementById("badgeTabDiff").innerText = notasDivergentes.length;
 
-      renderSevenDaysIndicator(emp);
-      renderMonthlyEvolution(emp, grp, visao);
-      renderLeftChart(contas);
-      renderRightChart(notasBase);
-      renderActiveTable(state);
+      try { renderSevenDaysIndicator(emp); } catch(e) { console.error("renderSevenDaysIndicator err:", e); }
+      try { renderMonthlyEvolution(emp, grp, visao); } catch(e) { console.error("renderMonthlyEvolution err:", e); }
+      try { renderLeftChart(contas); } catch(e) { console.error("renderLeftChart err:", e); }
+      try { renderRightChart(notasBase); } catch(e) { console.error("renderRightChart err:", e); }
+      try { renderActiveTable(state); } catch(e) { console.error("renderActiveTable err:", e); }
     }
 
     function renderSevenDaysIndicator(emp) {
