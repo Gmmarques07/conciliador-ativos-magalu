@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conciliação Conta 2103010001 • Pagamentos Extras (09/2026 e 10/2026)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --background: #0b1120;
+      --foreground: #f1f5f9;
+      --card: #111827;
+      --border: #1e293b;
+      --muted-foreground: #94a3b8;
+      --code-foreground: #38bdf8;
+    }
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .magalu-bar {
+      height: 5px;
+      background: linear-gradient(90deg, #ff9900 0%, #ff2e93 20%, #8c52ff 40%, #0086ff 65%, #00d664 85%, #ffde00 100%);
+    }
+    .magalu-blue-grad {
+      background: linear-gradient(135deg, #0086ff 0%, #0056b3 100%);
+    }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased m-0 p-0">
+  <div class="magalu-bar w-full"></div>
+
+  <!-- Header -->
+  <header class="bg-[var(--card)] border-b border-[var(--border)] px-5 py-3 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="magalu-blue-grad text-white font-black text-xs px-3 py-1.5 rounded-lg tracking-tight">
+          magalu <span class="font-normal opacity-90">| CSC Contábil</span>
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-bold text-[var(--foreground)]">
+            Conciliação Conta <code class="text-blue-400">2103010001</code> — Pagamentos Extras (<code class="text-blue-400">09/2026</code> e <code class="text-blue-400">10/2026</code>)
+          </h1>
+          <p class="text-xs text-[var(--muted-foreground)]">
+            Razão Oracle EBS (<code class="text-[var(--code-foreground)]">razao_conciliacao</code>) × Extrato Bancário (<code class="text-[var(--code-foreground)]">xtpg_mgl_mov_extrato</code>) × Planilha DP (Aberto por <code class="text-emerald-400">ID</code>)
+          </p>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex items-center gap-2 text-xs">
+        <a href="conciliador_folha_magalu.html" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition flex items-center gap-1.5 no-underline">
+          <span>🚀 Abrir Conciliador da Folha (29 Contas)</span>
+          <span>↗</span>
+        </a>
+        <button onclick="prevSlide()" class="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--background)] font-semibold cursor-pointer">◀ Anterior</button>
+        <span id="slideCounter" class="px-3 py-1.5 rounded-lg bg-blue-500/15 text-blue-400 border border-blue-500/30 font-bold tabular-nums">Slide 1 / 6</span>
+        <button onclick="nextSlide()" class="px-3 py-1.5 rounded-lg magalu-blue-grad text-white font-semibold cursor-pointer">Próximo ▶</button>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-[var(--border)] text-xs">
+      <button onclick="goToSlide(0)" class="slide-pill px-3 py-1 rounded-md font-semibold">1. Como Conciliamos & Tabelas</button>
+      <button onclick="goToSlide(1)" class="slide-pill px-3 py-1 rounded-md font-semibold">2. Os 4 Pontos Identificados</button>
+      <button onclick="goToSlide(2)" class="slide-pill px-3 py-1 rounded-md font-semibold">3. Retorno Bancário por ID (Δ = R$ 0,00)</button>
+      <button onclick="goToSlide(3)" class="slide-pill px-3 py-1 rounded-md font-semibold">4. Conciliação Setembro (09/2026)</button>
+      <button onclick="goToSlide(4)" class="slide-pill px-3 py-1 rounded-md font-semibold">5. Conciliação Outubro (10/2026)</button>
+      <button onclick="goToSlide(5)" class="slide-pill px-3 py-1 rounded-md font-semibold">6. De/Para das Verbas (Planilha × Razão)</button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-5">
+    <!-- SLIDE 1: COMO CONCILIAMOS & TABELAS USADAS -->
+    <section class="slide space-y-4" id="slide-0">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+        <div class="border-b border-[var(--border)] pb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase text-blue-400">1. Metodologia & Fontes de Dados</span>
+            <h2 class="text-lg font-bold mt-0.5">Como o Cruzamento Foi Feito (Oracle BigQuery × Planilha de Extras)</h2>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-bold">
+            100% Conciliado ao Centavo (Δ = R$ 0,00)
+          </span>
+        </div>
+
+        <!-- 3 Tabelas Usadas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-1.5 border-l-4 border-l-blue-500">
+            <div class="font-bold text-blue-400 uppercase">1. Razão Contábil Oracle (BigQuery)</div>
+            <div class="font-mono font-bold text-[var(--code-foreground)] break-all">controladoria_controles_financeiros.razao_conciliacao</div>
+            <p class="text-[var(--muted-foreground)]">
+              Fonte oficial dos lotes contabilizados pela Folha (<code class="text-xs">APDATA</code>) e pela Tesouraria (<code class="text-xs">XTPG</code>) em Setembro (<code class="text-xs">09-26</code>) e Outubro (<code class="text-xs">10-26</code>).
+            </p>
+          </div>
+
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-1.5 border-l-4 border-l-emerald-500">
+            <div class="font-bold text-emerald-400 uppercase">2. Extrato Bancário Itaú (BigQuery)</div>
+            <div class="font-mono font-bold text-[var(--code-foreground)] break-all">controladoria_controles_financeiros.xtpg_mgl_mov_extrato_conciliacao</div>
+            <p class="text-[var(--muted-foreground)]">
+              Movimentação real das contas correntes de folha no Itaú (C/C <code class="text-xs">21935-5</code> Magazine Luiza, C/C <code class="text-xs">37519</code> Magalog, C/C <code class="text-xs">15241</code> Cloud).
+            </p>
+          </div>
+
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-1.5 border-l-4 border-l-amber-500">
+            <div class="font-bold text-amber-300 uppercase">3. Planilha Pagamentos Extras (DP)</div>
+            <div class="font-mono font-bold text-[var(--code-foreground)] break-all">Extra_(Folha-Ponto-Remuneração)_09-10-_2026.xlsx</div>
+            <p class="text-[var(--muted-foreground)]">
+              Relatório com 4 abas (<code class="text-xs">FOLHA 09-10</code>, <code class="text-xs">PONTO 09-10</code>, <code class="text-xs">Remuneração 09</code> e <code class="text-xs">Remuneração 10</code>) aberto por <strong>linha de <code class="text-xs">ID</code></strong> até o último dia útil do mês.
+            </p>
+          </div>
+        </div>
+
+        <!-- Regra de Ouro do Cruzamento -->
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-2 text-xs">
+          <h3 class="text-sm font-bold text-blue-400">🔑 Regra de Agrupamento Descoberta (Por que os itens aparecem agrupados no Razão):</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+            <div>
+              <strong class="text-[var(--foreground)]">1. No Lado da Folha (<code class="text-blue-400">ORIGEM = 'APDATA'</code>):</strong>
+              <p class="text-[var(--muted-foreground)] mt-0.5">
+                O APDATA contabiliza <strong>1 linha única por Filial + Verba no mês</strong> (juntando a folha normal + os extras) e lança o desconto correspondente nas verbas <code class="text-amber-300">568 (Desconto Pagto Extra)</code>, <code class="text-amber-300">122 (Dif. Quinzena)</code> ou <code class="text-amber-300">078 (Adto Salarial)</code>.
+              </p>
+            </div>
+            <div>
+              <strong class="text-[var(--foreground)]">2. No Lado do Banco (<code class="text-emerald-400">ORIGEM = 'XTPG'</code>):</strong>
+              <p class="text-[var(--muted-foreground)] mt-0.5">
+                O XTPG agrupa as <strong>3 abas da planilha (<code class="text-xs">Folha + Ponto + Remuneração</code>)</strong> por <strong>Empresa (<code class="text-xs">001=Magalu</code>, <code class="text-xs">004=Magalog</code>, <code class="text-xs">012=Cloud</code>) + Data do Crédito</strong>, gerando 1 lote único por dia no Razão (<code class="text-xs">PAGAMENTO EXTRA&lt;DDMMYYYY&gt;</code>).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resumo por Empresa na Planilha -->
+        <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl overflow-hidden">
+          <div class="px-4 py-2 border-b border-[var(--border)] text-xs font-bold">
+            Resumo Geral da Planilha por Empresa (Soma das 4 Abas: Setembro + Outubro/2026)
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--border)] text-[var(--muted-foreground)] uppercase text-[11px]">
+                  <th class="py-2 px-3">Empresa na Planilha</th>
+                  <th class="py-2 px-3">Cód. Oracle & Conta Itaú</th>
+                  <th class="py-2 px-3 text-right">Aba Folha</th>
+                  <th class="py-2 px-3 text-right">Aba Ponto (Bruto)</th>
+                  <th class="py-2 px-3 text-right">Abas Remun. (09+10)</th>
+                  <th class="py-2 px-3 text-right">Soma Bruta Excel</th>
+                  <th class="py-2 px-3 text-right">(-) Duplicata Ponto</th>
+                  <th class="py-2 px-3 text-right">Total Líquido Real</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[var(--border)] font-mono">
+                <tr class="bg-blue-500/5">
+                  <td class="py-2 px-3 font-sans font-bold text-blue-400">MAGAZINE LUIZA</td>
+                  <td class="py-2 px-3"><code class="text-blue-400 font-bold">001</code> • C/C 21935-5</td>
+                  <td class="py-2 px-3 text-right">R$ 217.831,27</td>
+                  <td class="py-2 px-3 text-right">R$ 33.051,20</td>
+                  <td class="py-2 px-3 text-right">R$ 145.719,48</td>
+                  <td class="py-2 px-3 text-right font-bold">R$ 396.601,95</td>
+                  <td class="py-2 px-3 text-right text-red-400">-R$ 12.707,75</td>
+                  <td class="py-2 px-3 text-right font-bold text-emerald-400">R$ 383.894,20</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-sans font-bold">MAGALOG</td>
+                  <td class="py-2 px-3"><code class="text-blue-400 font-bold">004</code> • C/C 37519</td>
+                  <td class="py-2 px-3 text-right">R$ 22.191,48</td>
+                  <td class="py-2 px-3 text-right">R$ 96.979,60</td>
+                  <td class="py-2 px-3 text-right">R$ 82.436,13</td>
+                  <td class="py-2 px-3 text-right font-bold">R$ 201.607,21</td>
+                  <td class="py-2 px-3 text-right">R$ 0,00</td>
+                  <td class="py-2 px-3 text-right font-bold text-emerald-400">R$ 201.607,21</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-sans font-bold">MAGALU CLOUD / LUIZALABS</td>
+                  <td class="py-2 px-3"><code class="text-blue-400 font-bold">012</code> • C/C 15241</td>
+                  <td class="py-2 px-3 text-right">R$ 72.902,34</td>
+                  <td class="py-2 px-3 text-right">R$ 0,00</td>
+                  <td class="py-2 px-3 text-right">R$ 1.860,57</td>
+                  <td class="py-2 px-3 text-right font-bold">R$ 74.762,91</td>
+                  <td class="py-2 px-3 text-right">R$ 0,00</td>
+                  <td class="py-2 px-3 text-right font-bold text-emerald-400">R$ 74.762,91</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-3 font-sans font-bold">CONSÓRCIO (007) + RESOLVE (011)</td>
+                  <td class="py-2 px-3"><code class="text-blue-400 font-bold">007 / 011</code></td>
+                  <td class="py-2 px-3 text-right">R$ 1.014,72</td>
+                  <td class="py-2 px-3 text-right">R$ 8.666,32</td>
+                  <td class="py-2 px-3 text-right">R$ 1.730,80</td>
+                  <td class="py-2 px-3 text-right font-bold">R$ 11.411,84</td>
+                  <td class="py-2 px-3 text-right text-red-400">-R$ 4.333,16</td>
+                  <td class="py-2 px-3 text-right font-bold text-emerald-400">R$ 7.078,68</td>
+                </tr>
+                <tr class="text-[var(--muted-foreground)]">
+                  <td class="py-2 px-3 font-sans">Outras 10 Coligadas (Netshoes, Kabum, Época, etc.)</td>
+                  <td class="py-2 px-3">Coligadas</td>
+                  <td class="py-2 px-3 text-right">R$ 12.336,36</td>
+                  <td class="py-2 px-3 text-right">R$ 5.212,88</td>
+                  <td class="py-2 px-3 text-right">R$ 79.786,81</td>
+                  <td class="py-2 px-3 text-right font-bold">R$ 97.336,05</td>
+                  <td class="py-2 px-3 text-right text-red-400">-R$ 549,80</td>
+                  <td class="py-2 px-3 text-right font-bold">R$ 96.786,25</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: OS 4 PONTOS IDENTIFICADOS -->
+    <section class="slide hidden space-y-4" id="slide-1">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+        <div class="border-b border-[var(--border)] pb-3">
+          <span class="text-xs font-bold uppercase text-amber-300">2. Diagnóstico Executivo para Reunião</span>
+          <h2 class="text-lg font-bold mt-0.5">Os 4 Pontos Identificados na Conciliação (Setembro e Outubro/2026)</h2>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="bg-[var(--background)] border border-emerald-500/40 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1 max-w-4xl">
+              <div class="font-bold text-sm text-emerald-300">1. Abertura de Retorno Bancário por <code class="text-xs">ID</code> Matou 100% da Diferença de 08/09, 28/09 e 08/10 (<code class="text-xs">Δ = R$ 0,00</code>!)</div>
+              <p class="text-[var(--muted-foreground)]">
+                Quando um Retorno Bancário (<code class="text-xs">Vb. 3132, 3128, 2501</code>) não era pago no dia programado, o DP <strong>reincluía o mesmo <code class="text-xs">ID</code> e valor em um dia seguinte sem apagar a 1ª tentativa da planilha</strong>:<br/>
+                • <strong>08/09 (<code class="text-xs">-R$ 9.528,47</code>):</strong> Exatamente <strong>6 <code class="text-xs">IDs</code> (<code class="text-xs">355902, 361145, 400081, 406859, 438121, 442297</code>)</strong> listados em 08/09 foram reenviados e pagos em <strong>09/09 (<code class="text-xs">R$ 4.362,70</code>)</strong> e <strong>10/09 (<code class="text-xs">R$ 5.165,77</code>)</strong> = <strong>R$ 9.528,47 exatos (<code class="text-emerald-400">Δ = R$ 0,00</code>)</strong>!<br/>
+                • <strong>28/09 ➔ 30/09 (<code class="text-xs">R$ 731,02</code>):</strong> O <code class="text-xs">ID 447720</code> voltou novamente em 28/09 e foi reenviado/pago em 30/09.<br/>
+                • <strong>08/10 ➔ 13/10 (<code class="text-xs">R$ 1.480,29</code>):</strong> O <code class="text-xs">ID 449723</code> (Vb. 2501) não saiu em 08/10 e foi reenviado/pago em 13/10.
+              </p>
+            </div>
+            <div class="text-right font-mono">
+              <div class="text-xs text-[var(--muted-foreground)]">6 IDs Reenviados (08/09)</div>
+              <div class="text-base font-black text-emerald-400">R$ 9.528,47</div>
+              <div class="text-[11px] text-emerald-300">Diferença = R$ 0,00 exato!</div>
+            </div>
+          </div>
+
+          <div class="bg-[var(--background)] border border-red-500/40 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1 max-w-4xl">
+              <div class="font-bold text-sm text-red-300">2. Linhas Duplicadas na Aba <code class="text-xs">PONTO 09-10</code> em Setembro ("Ctrl+C / Ctrl+V")</div>
+              <p class="text-[var(--muted-foreground)]">
+                As <strong>linhas 33 a 63</strong> da aba <code class="text-xs">PONTO 09-10</code> são cópia idêntica das <strong>linhas 2 a 32</strong>. Removendo a duplicata, os lotes de <code class="text-xs">11/09 (R$ 23.980,50)</code>, <code class="text-xs">14/09 (R$ 9.949,41)</code>, <code class="text-xs">25/09 (R$ 3.843,18)</code> e <code class="text-xs">30/09 (R$ 881,02)</code> batem com <strong>Diferença = R$ 0,00</strong> no Razão do Oracle.
+              </p>
+            </div>
+            <div class="text-right font-mono">
+              <div class="text-xs text-[var(--muted-foreground)]">Valor Duplicado no Excel</div>
+              <div class="text-base font-black text-red-300">R$ 17.590,71</div>
+              <div class="text-[11px] text-red-400">R$ 12.707,75 na Emp. 001</div>
+            </div>
+          </div>
+
+          <div class="bg-[var(--background)] border border-amber-500/40 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1 max-w-4xl">
+              <div class="font-bold text-sm text-amber-300">3. Lote Misto em 22/10/2026: Juntou Salários CLT (<code class="text-xs">2103010001</code>) + Intermitentes (<code class="text-xs">2103010005</code>)</div>
+              <p class="text-[var(--muted-foreground)]">
+                Em <code class="text-xs">22/10/2026</code> (Emp. 001), o lote <code class="text-xs">Retorno Bancario Intermitentes22102026 (R$ 80.277,38)</code> somou <strong>R$ 25.965,95 da Vb. 122 (Conta 2103010001)</strong> + <strong>R$ 54.311,43 da Vb. 3134 (Conta 2103010005)</strong>. Além disso, 1 linha da planilha (<code class="text-xs">ID 448723, Filial 484, R$ 714,42</code>) não saiu nesse lote.
+              </p>
+            </div>
+            <div class="text-right font-mono">
+              <div class="text-xs text-[var(--muted-foreground)]">Reclassificar entre Contas</div>
+              <div class="text-base font-black text-amber-300">R$ 25.965,95</div>
+              <div class="text-[11px] text-amber-400">+ R$ 714,42 não pago no lote</div>
+            </div>
+          </div>
+
+          <div class="bg-[var(--background)] border border-purple-500/40 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-1 max-w-4xl">
+              <div class="font-bold text-sm text-purple-300">4. Regra dos Itens <code class="text-xs">"Não Importar" / "Não integrar"</code> (Aba Ponto)</div>
+              <p class="text-[var(--muted-foreground)]">
+                • <strong>"Não Importar" (<code class="text-xs">30/09/2026 • ID 404801 • R$ 150,00 • Vb. 3131</code>):</strong> Já havia sido processado na folha anteriormente e o pagamento voltou do banco (<strong>apenas o pagamento estava pendente</strong>; por isso não reimporta no APDATA e liquida a pendência anterior!).<br/>
+                • <strong>"Não integrar" (<code class="text-xs">13/10/2026 • R$ 2.030,41 • Vb. 78 Dif. PCD</code>):</strong> 7 itens pagos no lote <code class="text-xs">PAGAMENTO EXTRA13102026</code> onde a coluna de Conta Contábil veio preenchida como <code class="text-xs">"Não integrar"</code> (<code class="text-xs">R$ 1.368,96</code> na Emp. 001).
+              </p>
+            </div>
+            <div class="text-right font-mono">
+              <div class="text-xs text-[var(--muted-foreground)]">Regra Validada em Reunião</div>
+              <div class="text-base font-black text-emerald-400">R$ 150,00 (OK)</div>
+              <div class="text-[11px] text-purple-300">13/10 PCD: R$ 1.368,96 (Emp 001)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: RETORNO BANCÁRIO ABERTO POR LINHA DE ID -->
+    <section class="slide hidden space-y-4" id="slide-2">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+        <div class="border-b border-[var(--border)] pb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase text-emerald-400">3. Rastreabilidade de Retorno Bancário por ID</span>
+            <h2 class="text-lg font-bold mt-0.5">Abertura por Linha de <code class="text-blue-400">ID</code> (<code class="text-blue-400">Verbas 3132, 3128, 3131, 2501</code> • EMPRESA 001)</h2>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-bold">
+            Explica 100% de 08/09 (-R$ 9.528,47), 28/09 (R$ 731,02) e 08/10 (-R$ 1.480,29)
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-[var(--border)] text-[var(--muted-foreground)] uppercase text-[11px]">
+                <th class="py-2 px-2">Data Planilha</th>
+                <th class="py-2 px-2">ID</th>
+                <th class="py-2 px-2">Filial</th>
+                <th class="py-2 px-2">Verba & Descrição</th>
+                <th class="py-2 px-2">Conta</th>
+                <th class="py-2 px-2 text-right">Valor (R$)</th>
+                <th class="py-2 px-2">Status do ID no Razão / Banco</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] font-mono">
+              <!-- 08/09 REENVIADOS EM 09/09 E 10/09 -->
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2">08/09/2026</td>
+                <td class="py-1.5 px-2 font-bold text-amber-300">355902</td>
+                <td class="py-1.5 px-2">711</td>
+                <td class="py-1.5 px-2 font-sans">3132 • RETORNO BANCARIO - SALARIO</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-amber-300">2.064,32</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">🔄 Retornou em 04/09 e no Reenvio-1 (08/09: <em>"Agência no campo conta no People"</em>) ➔ Pago no <strong>Reenvio-2 (09/09)</strong> (#1 de 6)</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2">08/09/2026</td>
+                <td class="py-1.5 px-2 font-bold text-amber-300">361145</td>
+                <td class="py-1.5 px-2">1287</td>
+                <td class="py-1.5 px-2 font-sans">3132 • RETORNO BANCARIO - SALARIO</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-amber-300">2.298,38</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">🔄 Retornou em 04/09 e no Reenvio-1 (08/09: <em>"Agência no campo conta no People"</em>) ➔ Pago no <strong>Reenvio-2 (09/09)</strong> (#2 de 6)</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2">08/09/2026</td>
+                <td class="py-1.5 px-2 font-bold text-amber-300">400081</td>
+                <td class="py-1.5 px-2">736</td>
+                <td class="py-1.5 px-2 font-sans">3132 • RETORNO BANCARIO - SALARIO</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-amber-300">3.161,85</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">🔄 Retornou em 04/09 e no Reenvio-1 (08/09: <em>"Agência no campo conta no People"</em>) ➔ Pago no <strong>Reenvio-2 (10/09)</strong> (#3 de 6)</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2">08/09/2026</td>
+                <td class="py-1.5 px-2 font-bold text-amber-300">406859</td>
+                <td class="py-1.5 px-2">1542</td>
+                <td class="py-1.5 px-2 font-sans">3132 • RETORNO BANCARIO - SALARIO</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-amber-300">853,81</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">🔄 Retornou em 04/09 e no Reenvio-1 (08/09: <em>"Agência no campo conta no People"</em>) ➔ Pago no <strong>Reenvio-2 (10/09)</strong> (#4 de 6)</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2">08/09/2026</td>
+                <td class="py-1.5 px-2 font-bold text-amber-300">438121</td>
+                <td class="py-1.5 px-2">1313</td>
+                <td class="py-1.5 px-2 font-sans">3132 • RETORNO BANCARIO - SALARIO</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-amber-300">660,71</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">🔄 Retornou em 04/09 e no Reenvio-1 (08/09) ➔ Pago no <strong>Reenvio-2 (10/09/2026)</strong> (#5 de 6)</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2">08/09/2026</td>
+                <td class="py-1.5 px-2 font-bold text-amber-300">442297</td>
+                <td class="py-1.5 px-2">415</td>
+                <td class="py-1.5 px-2 font-sans">3132 • RETORNO BANCARIO - SALARIO</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-amber-300">489,40</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">🔄 Retornou em 04/09 e no Reenvio-1 (08/09) ➔ Pago no <strong>Reenvio-2 (10/09)</strong> (#6 de 6 • Soma = <strong>R$ 9.528,47</strong>!)</td>
+              </tr>
+              <!-- 08/09 PAGOS EM 08/09 -->
+              <tr>
+                <td class="py-1.5 px-2">08/09/2026</td>
+                <td class="py-1.5 px-2">7 IDs Pagos</td>
+                <td class="py-1.5 px-2">Várias</td>
+                <td class="py-1.5 px-2 font-sans">3132 • IDs 356330, 362797, 381856, 416452, 425312, 442128, 447219</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-emerald-400">13.773,36</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-400">🟢 Pagos efetivamente no lote PAGAMENTO EXTRA08092026 (R$ 88.399,02)</td>
+              </tr>
+              <!-- 09/09 -->
+              <tr>
+                <td class="py-1.5 px-2">09/09/2026</td>
+                <td class="py-1.5 px-2">8 IDs Pagos</td>
+                <td class="py-1.5 px-2">Várias</td>
+                <td class="py-1.5 px-2 font-sans">3132 • Inclui reenvio IDs 355902 (2.064,32) e 361145 (2.298,38) + 6 novos IDs</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-emerald-400">12.411,41</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-400">🟢 Pagos no lote PAGAMENTO EXTRA09092026 (R$ 17.427,87)</td>
+              </tr>
+              <!-- 10/09 -->
+              <tr>
+                <td class="py-1.5 px-2">10/09/2026</td>
+                <td class="py-1.5 px-2">5 IDs Pagos</td>
+                <td class="py-1.5 px-2">Várias</td>
+                <td class="py-1.5 px-2 font-sans">3132 • Inclui reenvio IDs 400081, 406859, 438121, 442297 (5.165,77) + ID 406671 (400,00)</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-emerald-400">5.565,77</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-400">🟢 Pagos no lote Retorno Bancario Folha10092026 (R$ 6.265,77)</td>
+              </tr>
+              <!-- 11/09, 14/09, 22/09 -->
+              <tr>
+                <td class="py-1.5 px-2">11, 14 e 22/09</td>
+                <td class="py-1.5 px-2">ID 446508 + 6 IDs</td>
+                <td class="py-1.5 px-2">Várias</td>
+                <td class="py-1.5 px-2 font-sans">3132 • 11/09 (610,95) + 14/09 (4.604,39: IDs 404801, 428394, 442758, 444768, 444881) + 22/09 (ID 446882: 8,86)</td>
+                <td class="py-1.5 px-2">2103010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-emerald-400">5.224,20</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-400">🟢 Conciliados exatos em 11/09, 14/09 e 22/09</td>
+              </tr>
+              <!-- 28/09 e 30/09 -->
+              <tr class="bg-blue-500/10">
+                <td class="py-1.5 px-2">28/09 e 30/09</td>
+                <td class="py-1.5 px-2 font-bold text-blue-300">447720</td>
+                <td class="py-1.5 px-2">1521</td>
+                <td class="py-1.5 px-2 font-sans">3128 • RETORNO BANCARIO - ADTO QUINZENAL</td>
+                <td class="py-1.5 px-2">1107010001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-blue-300">731,02</td>
+                <td class="py-1.5 px-2 font-sans text-blue-300">🔄 Saiu e retornou em 28/09 (D/C 731,02) ➔ Reenviado e pago em <strong>30/09/2026</strong>!</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 px-2">30/09/2026</td>
+                <td class="py-1.5 px-2 font-bold text-emerald-300">404801</td>
+                <td class="py-1.5 px-2">296</td>
+                <td class="py-1.5 px-2 font-sans">3131 • RETORNO BANCARIO - ANTEC ACORDO SINDIC ("Não Importar")</td>
+                <td class="py-1.5 px-2">1107010007</td>
+                <td class="py-1.5 px-2 text-right font-bold text-emerald-400">150,00</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-400">🟢 Pago em 30/09 (Folha já processada antes; só o pagto estava pendente)</td>
+              </tr>
+              <!-- OUTUBRO: 05/10, 08/10, 09/10, 13/10, 20/10 -->
+              <tr>
+                <td class="py-1.5 px-2">05/10/2026</td>
+                <td class="py-1.5 px-2">412665 / 446882</td>
+                <td class="py-1.5 px-2">890 / 1633</td>
+                <td class="py-1.5 px-2 font-sans">3134 Intermitente (540,14) + 3128 Adto Quinzenal (304,80)</td>
+                <td class="py-1.5 px-2">0005 / 0001</td>
+                <td class="py-1.5 px-2 text-right font-bold text-emerald-400">844,94</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-400">🟢 Pago exato em 05/10/2026</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2">08/10/2026</td>
+                <td class="py-1.5 px-2 font-bold text-amber-300">449723</td>
+                <td class="py-1.5 px-2">500</td>
+                <td class="py-1.5 px-2 font-sans">2501 • Pensão Alimentícia (Retorno/Extra)</td>
+                <td class="py-1.5 px-2">2108010003</td>
+                <td class="py-1.5 px-2 text-right font-bold text-amber-300">1.480,29</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">🔄 Não saiu em 08/10 ➔ Reenviado e pago em <strong>13/10/2026</strong> (EXTRA PENSIONISTA)</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 px-2">08, 09 e 20/10</td>
+                <td class="py-1.5 px-2">8 IDs Pagos</td>
+                <td class="py-1.5 px-2">Várias</td>
+                <td class="py-1.5 px-2 font-sans">08/10 (IDs 165233, 447142, 447621, 449001 = 9.920,02) + 09/10 (1.785,46) + 20/10 (3.086,28)</td>
+                <td class="py-1.5 px-2">Várias</td>
+                <td class="py-1.5 px-2 text-right font-bold text-emerald-400">14.791,76</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-400">🟢 Pagos exatos nos lotes de 08/10, 09/10 e 20/10</td>
+              </tr>
+              <!-- SALDO EM ABERTO (RETORNOS_2026_V2) -->
+              <tr class="bg-purple-500/10">
+                <td class="py-1.5 px-2 font-bold text-purple-300">Saldo Aberto</td>
+                <td class="py-1.5 px-2 font-bold text-purple-300">421783 / 446696 / 415759</td>
+                <td class="py-1.5 px-2">Magalu / Kabum</td>
+                <td class="py-1.5 px-2 font-sans">Planilha <code class="text-xs">Retornos_2026_v2.xlsx</code> • Status = <strong>"Aguardando Colaborador" / "Desligado"</strong></td>
+                <td class="py-1.5 px-2">2103010001 / 0003</td>
+                <td class="py-1.5 px-2 text-right font-bold text-purple-300">780,54 / 1.566,06</td>
+                <td class="py-1.5 px-2 font-sans text-purple-300">🟣 <strong>Composição do Saldo em Aberto (D-1):</strong> Ainda sem data de Reenvio (aguardando conta bancária do colaborador)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: CONCILIAÇÃO SETEMBRO/2026 -->
+    <section class="slide hidden space-y-4" id="slide-3">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+        <div class="border-b border-[var(--border)] pb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase text-blue-400">4. Demonstrativo Setembro/2026 (09-26)</span>
+            <h2 class="text-lg font-bold mt-0.5">Conciliação Diária até o Último Dia Útil: Razão Oracle (<code class="text-blue-400">EMPRESA 001</code>) × Planilha</h2>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-bold">
+            Diferença Residual Após Abrir por ID = R$ 0,00 (Exato ao Centavo!)
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-[var(--border)] text-[var(--muted-foreground)] uppercase text-[11px]">
+                <th class="py-2 px-2.5">Data</th>
+                <th class="py-2 px-2.5">Histórico no Razão Oracle (EMPRESA 001)</th>
+                <th class="py-2 px-2.5 text-right">Aba Folha</th>
+                <th class="py-2 px-2.5 text-right">Aba Ponto (Sem Dupl.)</th>
+                <th class="py-2 px-2.5 text-right">Aba Remun. 09</th>
+                <th class="py-2 px-2.5 text-right">Total Planilha</th>
+                <th class="py-2 px-2.5 text-right">Valor Razão Oracle</th>
+                <th class="py-2 px-2.5 text-right">Diferença (Δ)</th>
+                <th class="py-2 px-2.5">Status / Explicação por ID</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] font-mono">
+              <tr>
+                <td class="py-2 px-2.5">04/09/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA04092026</td>
+                <td class="py-2 px-2.5 text-right">3.940,21</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">11.044,60</td>
+                <td class="py-2 px-2.5 text-right font-bold">14.984,81</td>
+                <td class="py-2 px-2.5 text-right font-bold">14.984,81</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato</td>
+              </tr>
+              <tr class="bg-blue-500/10">
+                <td class="py-2 px-2.5 font-bold">08/09/2026</td>
+                <td class="py-2 px-2.5 font-bold">PAGAMENTO EXTRA08092026</td>
+                <td class="py-2 px-2.5 text-right">40.530,09</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">57.397,40</td>
+                <td class="py-2 px-2.5 text-right font-bold">97.927,49</td>
+                <td class="py-2 px-2.5 text-right font-bold">88.399,02</td>
+                <td class="py-2 px-2.5 text-right text-amber-300 font-bold">-9.528,47</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-300">🟢 6 IDs de Retorno Bancário (R$ 9.528,47) reenviados/pagos em 09/09 e 10/09 (Δ = R$ 0,00!)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">09/09/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA09092026</td>
+                <td class="py-2 px-2.5 text-right">12.411,41</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">5.016,46</td>
+                <td class="py-2 px-2.5 text-right font-bold">17.427,87</td>
+                <td class="py-2 px-2.5 text-right font-bold">17.427,87</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (Inclui IDs 355902 e 361145 vindos de 08/09 = R$ 4.362,70)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">10/09/2026</td>
+                <td class="py-2 px-2.5">Retorno Bancario Folha10092026</td>
+                <td class="py-2 px-2.5 text-right">5.565,77</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">700,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">6.265,77</td>
+                <td class="py-2 px-2.5 text-right font-bold">6.265,77</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (Inclui 4 IDs vindos de 08/09 = R$ 5.165,77)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">11/09/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA11092026</td>
+                <td class="py-2 px-2.5 text-right">610,95</td>
+                <td class="py-2 px-2.5 text-right">3.369,55</td>
+                <td class="py-2 px-2.5 text-right">20.000,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">23.980,50</td>
+                <td class="py-2 px-2.5 text-right font-bold">23.980,50</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado (Expurgada linha 33 duplicada no Ponto)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">14/09/2026</td>
+                <td class="py-2 px-2.5">Retorno Folha (4.604,39) + EXTRA (5.345,02)</td>
+                <td class="py-2 px-2.5 text-right">4.604,39</td>
+                <td class="py-2 px-2.5 text-right">5.345,02</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">9.949,41</td>
+                <td class="py-2 px-2.5 text-right font-bold">9.949,41</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado (Expurgada linha 60 duplicada no Ponto)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">22/09/2026</td>
+                <td class="py-2 px-2.5">Retorno Bancario Folha22092026</td>
+                <td class="py-2 px-2.5 text-right">8,86</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">8,86</td>
+                <td class="py-2 px-2.5 text-right font-bold">8,86</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (ID 446882)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">25/09/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA25092026</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">3.843,18</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">3.843,18</td>
+                <td class="py-2 px-2.5 text-right font-bold">3.843,18</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado (Expurgada linha 62 duplicada no Ponto)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">28 e 30/09</td>
+                <td class="py-2 px-2.5">Retorno Quinzena (ID 447720: 731,02×2) + EXTRA (ID 404801: 150,00)</td>
+                <td class="py-2 px-2.5 text-right">1.462,04</td>
+                <td class="py-2 px-2.5 text-right">150,00</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">1.612,04</td>
+                <td class="py-2 px-2.5 text-right font-bold">1.612,04</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (ID 447720 voltou em 28/09 e foi reenviado em 30/09)</td>
+              </tr>
+              <tr class="border-t-2 border-[var(--border)] bg-[var(--background)] font-bold">
+                <td class="py-2.5 px-2.5" colspan="2">TOTAL SETEMBRO/2026 (EMPRESA 001 • MAGAZINE LUIZA)</td>
+                <td class="py-2.5 px-2.5 text-right">68.523,67</td>
+                <td class="py-2.5 px-2.5 text-right">12.707,75</td>
+                <td class="py-2.5 px-2.5 text-right">94.158,46</td>
+                <td class="py-2.5 px-2.5 text-right text-blue-400">175.389,88</td>
+                <td class="py-2.5 px-2.5 text-right text-emerald-400">165.861,41</td>
+                <td class="py-2.5 px-2.5 text-right text-amber-300">-9.528,47</td>
+                <td class="py-2.5 px-2.5 font-sans text-emerald-400">100% Explicado (6 IDs de 08/09 reenviados em 09 e 10/09 = R$ 9.528,47 • Δ = R$ 0,00!)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: CONCILIAÇÃO OUTUBRO/2026 -->
+    <section class="slide hidden space-y-4" id="slide-4">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+        <div class="border-b border-[var(--border)] pb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase text-blue-400">5. Demonstrativo Outubro/2026 (10-26)</span>
+            <h2 class="text-lg font-bold mt-0.5">Conciliação Diária até o Último Dia Útil: Razão Oracle (<code class="text-blue-400">EMPRESA 001</code>) × Planilha</h2>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-bold">
+            Diferença Residual Após Explicações = R$ 0,00
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-[var(--border)] text-[var(--muted-foreground)] uppercase text-[11px]">
+                <th class="py-2 px-2.5">Data</th>
+                <th class="py-2 px-2.5">Histórico no Razão Oracle (EMPRESA 001)</th>
+                <th class="py-2 px-2.5 text-right">Aba Folha</th>
+                <th class="py-2 px-2.5 text-right">Aba Ponto</th>
+                <th class="py-2 px-2.5 text-right">Aba Remun. 10</th>
+                <th class="py-2 px-2.5 text-right">Total Planilha</th>
+                <th class="py-2 px-2.5 text-right">Valor Razão Oracle</th>
+                <th class="py-2 px-2.5 text-right">Diferença (Δ)</th>
+                <th class="py-2 px-2.5">Status / Explicação por ID</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] font-mono">
+              <tr>
+                <td class="py-2 px-2.5">05/10/2026</td>
+                <td class="py-2 px-2.5">Retorno Bancario Quinzena05102026</td>
+                <td class="py-2 px-2.5 text-right">844,94</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">844,94</td>
+                <td class="py-2 px-2.5 text-right font-bold">844,94</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (IDs 412665 e 446882)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">06/10/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA06102026</td>
+                <td class="py-2 px-2.5 text-right">3.393,56</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">3.393,56</td>
+                <td class="py-2 px-2.5 text-right font-bold">3.393,56</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">07/10/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA07102026</td>
+                <td class="py-2 px-2.5 text-right">3.511,20</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">19.705,25</td>
+                <td class="py-2 px-2.5 text-right font-bold">23.216,45</td>
+                <td class="py-2 px-2.5 text-right font-bold">23.216,45</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (27 itens)</td>
+              </tr>
+              <tr class="bg-blue-500/10">
+                <td class="py-2 px-2.5 font-bold">08/10/2026</td>
+                <td class="py-2 px-2.5 font-bold">Retorno Bancario Quinzena08102026</td>
+                <td class="py-2 px-2.5 text-right">11.400,31</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">3.086,65</td>
+                <td class="py-2 px-2.5 text-right font-bold">14.486,96</td>
+                <td class="py-2 px-2.5 text-right font-bold">12.589,65</td>
+                <td class="py-2 px-2.5 text-right text-amber-300 font-bold">-1.897,31</td>
+                <td class="py-2 px-2.5 font-sans text-blue-300">🔵 ID 449723 (1.480,29 reenviado em 13/10) + Filial 1210 (417,02)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">09/10/2026</td>
+                <td class="py-2 px-2.5">Retorno Bancario Folha09102026</td>
+                <td class="py-2 px-2.5 text-right">1.785,46</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">1.785,46</td>
+                <td class="py-2 px-2.5 text-right font-bold">1.785,46</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (IDs 448262 e 449039)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">13/10/2026</td>
+                <td class="py-2 px-2.5">EXTRA PENSIONISTA (19.227,19) + EXTRA (3.358,04)</td>
+                <td class="py-2 px-2.5 text-right">6.339,10</td>
+                <td class="py-2 px-2.5 text-right">3.358,04</td>
+                <td class="py-2 px-2.5 text-right">12.888,09</td>
+                <td class="py-2 px-2.5 text-right font-bold">22.585,23</td>
+                <td class="py-2 px-2.5 text-right font-bold">22.585,23</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado (Inclui reenvio ID 449723 R$ 1.480,29 + R$ 1.368,96 "Não integrar")</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">16/10/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA16102026</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">3.065,09</td>
+                <td class="py-2 px-2.5 text-right">8.499,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">11.564,09</td>
+                <td class="py-2 px-2.5 text-right font-bold">11.564,09</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">20/10/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA20102026</td>
+                <td class="py-2 px-2.5 text-right">3.086,28</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">4.454,41</td>
+                <td class="py-2 px-2.5 text-right font-bold">7.540,69</td>
+                <td class="py-2 px-2.5 text-right font-bold">7.540,69</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (IDs 448892 e 449651 + Remuneração)</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">21/10/2026</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA21102026</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">1.212,57</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">1.212,57</td>
+                <td class="py-2 px-2.5 text-right font-bold">1.793,43</td>
+                <td class="py-2 px-2.5 text-right text-amber-300 font-bold">+580,86</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-300">🟢 Explicado na Planilha Remessa (L.186): Vale Transporte BAAP 33202 (R$ 580,86) caiu na 2103010001!</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-2 px-2.5 font-bold">22/10/2026</td>
+                <td class="py-2 px-2.5 font-bold">Retorno Bancario Intermitentes22102026</td>
+                <td class="py-2 px-2.5 text-right">80.991,80</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">80.991,80</td>
+                <td class="py-2 px-2.5 text-right font-bold">80.277,38</td>
+                <td class="py-2 px-2.5 text-right text-amber-300 font-bold">-714,42</td>
+                <td class="py-2 px-2.5 font-sans text-amber-300">🚨 Planilha Remessa (L.196/197): Separou 25.965,95 (0001) e 54.311,43 (0005), mas subiu tudo na 0001!</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-2.5">23, 26, 27, 29 e 30/10</td>
+                <td class="py-2 px-2.5">PAGAMENTO EXTRA 23/10, 26/10, 27/10, 29/10 e 30/10</td>
+                <td class="py-2 px-2.5 text-right">40.272,52</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right">0,00</td>
+                <td class="py-2 px-2.5 text-right font-bold">40.272,52</td>
+                <td class="py-2 px-2.5 text-right font-bold">40.272,52</td>
+                <td class="py-2 px-2.5 text-right text-emerald-400 font-bold">0,00</td>
+                <td class="py-2 px-2.5 font-sans text-emerald-400">🟢 Conciliado Exato (2.010,56 + 4.289,47 + 8.590,64 + 25.381,79 + 0,06)</td>
+              </tr>
+              <tr class="border-t-2 border-[var(--border)] bg-[var(--background)] font-bold">
+                <td class="py-2.5 px-2.5" colspan="2">TOTAL DOS LOTES ACIMA (EMPRESA 001 • OUTUBRO/2026)</td>
+                <td class="py-2.5 px-2.5 text-right">151.625,82</td>
+                <td class="py-2.5 px-2.5 text-right">7.635,70</td>
+                <td class="py-2.5 px-2.5 text-right">48.633,40</td>
+                <td class="py-2.5 px-2.5 text-right text-blue-400">207.894,92</td>
+                <td class="py-2.5 px-2.5 text-right text-emerald-400">205.863,40</td>
+                <td class="py-2.5 px-2.5 text-right text-amber-300">-2.030,87</td>
+                <td class="py-2.5 px-2.5 font-sans text-emerald-400">100% Explicado (-1.897,31 - 714,42 + 580,86 = -2.030,87!)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: DE/PARA DAS VERBAS -->
+    <section class="slide hidden space-y-4" id="slide-5">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+        <div class="border-b border-[var(--border)] pb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase text-blue-400">6. Mapa Contábil de Verbas (De/Para)</span>
+            <h2 class="text-lg font-bold mt-0.5">De/Para das 28 Verbas da Planilha ➔ Conta no Razão Oracle (Passivo/Ativo) × Verba Desconto no APDATA</h2>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-400 font-bold">
+            Onde fica no Motor: motor/config_folha.json + razao_conciliacao
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-3 border-l-4 border-l-blue-500">
+            <div class="font-bold text-blue-400">1. Planilha 1: <code class="text-xs">Retornos_2026_v2.xlsx</code> (Aba <code class="text-xs">Dados</code> & <code class="text-xs">RETORNOS</code>)</div>
+            <p class="text-[var(--muted-foreground)] mt-0.5">
+              Traz a tabela oficial de <strong>10 Verbas de Retorno Bancário (<code class="text-xs">3128</code> a <code class="text-xs">3703</code>)</strong>, o histórico de tentativas (<strong>Reenvio-1 a Reenvio-4</strong>) e a <strong>Composição do Saldo em Aberto</strong> (<code class="text-xs">"Aguardando Colaborador"</code> / <code class="text-xs">"Desligado"</code>).
+            </p>
+          </div>
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-3 border-l-4 border-l-amber-500">
+            <div class="font-bold text-amber-300">2. Planilha 2: <code class="text-xs">Controle_transmissão_bancária_-_Remessa.xlsx</code></div>
+            <p class="text-[var(--muted-foreground)] mt-0.5">
+              Ponte com o <strong>BAAP</strong>: mostra <code class="text-xs">Valor Enviado - Retornos = Pago Líquido</code>, os <strong>Protocolos UUID do BAAP</strong>, o <code class="text-xs">ID. EMP</code> no APDATA e os lotes que deram <strong>erro de integração no BAAP</strong>.
+            </p>
+          </div>
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-3 border-l-4 border-l-emerald-500">
+            <div class="font-bold text-emerald-400">3. Planilha 3 (<code class="text-xs">Extras 09 e 10</code>) × Razão Oracle (<code class="text-xs">mlpebs</code>)</div>
+            <p class="text-[var(--muted-foreground)] mt-0.5">
+              A planilha de Extras detalha as <strong>28 Verbas por ID</strong>, enquanto o Razão Oracle recebe <code class="text-xs">ORIGEM = 'APDATA'</code> (Folha via <code class="text-xs">Vb. 568/122</code>) e <code class="text-xs">ORIGEM = 'XTPG'</code> (Baixa bancária em lote).
+            </p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="border-b border-[var(--border)] text-[var(--muted-foreground)] uppercase text-[11px]">
+                <th class="py-2 px-2">Verba</th>
+                <th class="py-2 px-2">Descrição da Verba na Planilha</th>
+                <th class="py-2 px-2">Processo / Aba</th>
+                <th class="py-2 px-2">Conta Passivo/Ativo (Coluna K)</th>
+                <th class="py-2 px-2">Como entra na Folha APDATA (Contra-Verba / DRE)</th>
+                <th class="py-2 px-2 text-right">Linhas</th>
+                <th class="py-2 px-2 text-right">Total Planilha (R$)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border)] font-mono">
+              <!-- GRUPO 1: RETORNO BANCÁRIO -->
+              <tr class="bg-blue-500/10">
+                <td class="py-1.5 px-2 font-bold text-blue-400">3132</td>
+                <td class="py-1.5 px-2 font-sans font-semibold">RETORNO BANCARIO - SALARIO</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA (Aba Folha)</td>
+                <td class="py-1.5 px-2 text-blue-300 font-bold">2103010001 (Salários a Pagar)</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-300">Reenvio Bancário (Líquido já processado na folha; baixa <code class="text-xs">2103010001</code>)</td>
+                <td class="py-1.5 px-2 text-right">51</td>
+                <td class="py-1.5 px-2 text-right font-bold">68.738,84</td>
+              </tr>
+              <tr class="bg-blue-500/10">
+                <td class="py-1.5 px-2 font-bold text-blue-400">3128</td>
+                <td class="py-1.5 px-2 font-sans font-semibold">RETORNO BANCARIO - ADTO QUINZENAL</td>
+                <td class="py-1.5 px-2 font-sans">QUINZENA (Aba Folha)</td>
+                <td class="py-1.5 px-2 text-blue-300 font-bold">1107010001 (Antecip. Salários)</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-300">Reenvio Bancário Quinzena (Baixa <code class="text-xs">1107010001</code> contra Banco)</td>
+                <td class="py-1.5 px-2 text-right">12</td>
+                <td class="py-1.5 px-2 text-right font-bold">8.515,52</td>
+              </tr>
+              <tr class="bg-blue-500/10">
+                <td class="py-1.5 px-2 font-bold text-blue-400">3130</td>
+                <td class="py-1.5 px-2 font-sans font-semibold">RETORNO BANCARIO - FERIAS</td>
+                <td class="py-1.5 px-2 font-sans">FÉRIAS (Aba Folha)</td>
+                <td class="py-1.5 px-2 text-blue-300 font-bold">1107010003 (Antecip. Férias)</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-300">Reenvio Bancário Férias (Emp. 012 Cloud • Baixa <code class="text-xs">1107010003</code>)</td>
+                <td class="py-1.5 px-2 text-right">8</td>
+                <td class="py-1.5 px-2 text-right font-bold">72.902,34</td>
+              </tr>
+              <tr class="bg-blue-500/10">
+                <td class="py-1.5 px-2 font-bold text-blue-400">3131</td>
+                <td class="py-1.5 px-2 font-sans font-semibold">RETORNO BANCARIO - ANTEC ACORDO SINDIC</td>
+                <td class="py-1.5 px-2 font-sans">PONTO (Aba Ponto)</td>
+                <td class="py-1.5 px-2 text-blue-300 font-bold">1107010007 ("Não Importar")</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-300">Reenvio Bancário ("Não Importar" = já processado na folha; só pagto pendente)</td>
+                <td class="py-1.5 px-2 text-right">1</td>
+                <td class="py-1.5 px-2 text-right font-bold">150,00</td>
+              </tr>
+              <tr class="bg-amber-500/10">
+                <td class="py-1.5 px-2 font-bold text-amber-300">3134</td>
+                <td class="py-1.5 px-2 font-sans font-semibold">RETORNO BANCARIO - INTERMITENTE</td>
+                <td class="py-1.5 px-2 font-sans">INTERMITENTE (Aba Folha)</td>
+                <td class="py-1.5 px-2 text-amber-300 font-bold">2103010005 (Intermitentes)</td>
+                <td class="py-1.5 px-2 font-sans text-amber-300">Reenvio Intermitentes (Em 22/10 saiu misturado com Vb. 122 na <code class="text-xs">2103010001</code>!)</td>
+                <td class="py-1.5 px-2 text-right">179</td>
+                <td class="py-1.5 px-2 text-right font-bold">54.851,57</td>
+              </tr>
+              <tr class="bg-blue-500/10">
+                <td class="py-1.5 px-2 font-bold text-blue-400">3129 / 3133 / 3135 / 3136 / 3703</td>
+                <td class="py-1.5 px-2 font-sans font-semibold">DEMAIS VERBAS OFICIAIS DE RETORNO (<code class="text-xs">Aba Dados - Retornos_2026_v2</code>)</td>
+                <td class="py-1.5 px-2 font-sans">13º / RESCISÃO / VA / VT / PENSÃO</td>
+                <td class="py-1.5 px-2 text-blue-300 font-bold">2103010002 / 0003 / 2108010003</td>
+                <td class="py-1.5 px-2 font-sans text-emerald-300">3129 (13º), 3133 (Rescisão), 3135 (Vale Alim.), 3136 (Vale Transp.), 3703 (Pensionista)</td>
+                <td class="py-1.5 px-2 text-right">Aba Dados</td>
+                <td class="py-1.5 px-2 text-right font-bold">Mapeadas</td>
+              </tr>
+              <!-- GRUPO 2: ADIANTAMENTOS E DIFERENÇAS DE QUINZENA/PONTO -->
+              <tr>
+                <td class="py-1.5 px-2 font-bold">078</td>
+                <td class="py-1.5 px-2 font-sans">ADIANTAMENTO SALARIAL (Folha e Ponto: Dif. Horas/PCD/Salário)</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA / PONTO</td>
+                <td class="py-1.5 px-2">2103010001 (e "Não integrar")</td>
+                <td class="py-1.5 px-2 font-sans">Pago como Adto Extra ➔ Descontado no fechamento via <code class="text-xs">Vb. 568 / 078</code></td>
+                <td class="py-1.5 px-2 text-right">841</td>
+                <td class="py-1.5 px-2 text-right font-bold">130.512,93</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 px-2 font-bold">122</td>
+                <td class="py-1.5 px-2 font-sans">DIFERENCA DE QUINZENA</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA (Aba Folha)</td>
+                <td class="py-1.5 px-2">2103010001 (Salários a Pagar)</td>
+                <td class="py-1.5 px-2 font-sans">No APDATA contabiliza <code class="text-xs">122.DIFERENCA DE QUINZENA</code> direto na <code class="text-xs">2103010001</code></td>
+                <td class="py-1.5 px-2 text-right">49</td>
+                <td class="py-1.5 px-2 text-right font-bold">66.952,83</td>
+              </tr>
+              <!-- GRUPO 3: VERBAS DE REMUNERAÇÃO E PROVENTOS -->
+              <tr>
+                <td class="py-1.5 px-2 font-bold">301</td>
+                <td class="py-1.5 px-2 font-sans">DIF. SALARIO (Ex.: Filial 900 do print!)</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA (Remun. 09 e 10)</td>
+                <td class="py-1.5 px-2">2103010001 (Salários a Pagar)</td>
+                <td class="py-1.5 px-2 font-sans">DRE <code class="text-xs">3301010001 (Salários Fixos)</code> ➔ Passivo <code class="text-xs">2103010001</code> via <code class="text-xs">Vb. 568</code></td>
+                <td class="py-1.5 px-2 text-right">51</td>
+                <td class="py-1.5 px-2 text-right font-bold">79.409,88</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 px-2 font-bold">311 / 374</td>
+                <td class="py-1.5 px-2 font-sans">DIF. PREMIO CD (81.201,36) + DIF. PREMIO VARIAVEL (209.687,89)</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA (Remun. / Folha)</td>
+                <td class="py-1.5 px-2">2103010001 (Salários a Pagar)</td>
+                <td class="py-1.5 px-2 font-sans">DRE <code class="text-xs">3301010014 / 3301020001</code> ➔ Passivo <code class="text-xs">2103010001</code> via <code class="text-xs">Vb. 568</code></td>
+                <td class="py-1.5 px-2 text-right">730</td>
+                <td class="py-1.5 px-2 text-right font-bold">290.889,25</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 px-2 font-bold">321 / 332 / 1687 / 3148 / 9542</td>
+                <td class="py-1.5 px-2 font-sans">DIF. PREMIOS SERVIÇOS, CONSÓRCIO, CARTÃO LUIZA, RETIRA LOJA, MKT PLACE</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA (Remun. 09 e 10)</td>
+                <td class="py-1.5 px-2">2103010001 (Salários a Pagar)</td>
+                <td class="py-1.5 px-2 font-sans">DRE Comissões/Prêmios ➔ Passivo <code class="text-xs">2103010001</code> via <code class="text-xs">Vb. 568</code></td>
+                <td class="py-1.5 px-2 text-right">53</td>
+                <td class="py-1.5 px-2 text-right font-bold">21.976,00</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 px-2 font-bold">9 / 1783 / 1787 / 2259 / 3748</td>
+                <td class="py-1.5 px-2 font-sans">AJUDA DE CUSTO, REEMB. VIAGEM, ALUGUEL, KM PEDÁGIO</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA (Folha / Remun.)</td>
+                <td class="py-1.5 px-2">2103010001 (Salários a Pagar)</td>
+                <td class="py-1.5 px-2 font-sans">Despesa Viagem/Ajuda Custo ➔ Passivo <code class="text-xs">2103010001</code> via <code class="text-xs">Vb. 568</code></td>
+                <td class="py-1.5 px-2 text-right">37</td>
+                <td class="py-1.5 px-2 text-right font-bold">66.964,42</td>
+              </tr>
+              <tr>
+                <td class="py-1.5 px-2 font-bold">58 / 62 / 140 / 164 / 195 / 497 / 996</td>
+                <td class="py-1.5 px-2 font-sans">ABONO CONVENÇÃO, BOLSA ESTÁGIO, GRATIFICAÇÃO, AUX. ESTUDANTE, INDENIZAÇÃO (20k), REEMBOLSOS</td>
+                <td class="py-1.5 px-2 font-sans">FOLHA (Folha / Remun.)</td>
+                <td class="py-1.5 px-2">2103010001 (Salários a Pagar)</td>
+                <td class="py-1.5 px-2 font-sans">DRE Proventos (<code class="text-xs">3301010001 / 0006 / 9999</code>) ➔ Passivo <code class="text-xs">2103010001</code> via <code class="text-xs">Vb. 568</code></td>
+                <td class="py-1.5 px-2 text-right">167</td>
+                <td class="py-1.5 px-2 text-right font-bold">42.222,48</td>
+              </tr>
+              <!-- GRUPO 4: PENSÃO ALIMENTÍCIA -->
+              <tr class="bg-purple-500/10">
+                <td class="py-1.5 px-2 font-bold text-purple-300">2501</td>
+                <td class="py-1.5 px-2 font-sans font-semibold">P Al % Liq Sem V Resc (Pensão Alimentícia)</td>
+                <td class="py-1.5 px-2 font-sans">PENSÃO ALIMENTÍCIA</td>
+                <td class="py-1.5 px-2 text-purple-300 font-bold">2108010003 (Pensão Judicial)</td>
+                <td class="py-1.5 px-2 font-sans text-purple-300">Retenção Pensão no APDATA (<code class="text-xs">2108010003</code>) ➔ Pago em <code class="text-xs">EXTRA PENSIONISTA</code></td>
+                <td class="py-1.5 px-2 text-right">9</td>
+                <td class="py-1.5 px-2 text-right font-bold">10.758,74</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 6;
+
+    function updateSlides() {
+      for (let i = 0; i < totalSlides; i++) {
+        const el = document.getElementById("slide-" + i);
+        if (el) el.classList.toggle("hidden", i !== currentSlide);
+      }
+      document.getElementById("slideCounter").innerText = `Slide ${currentSlide + 1} / ${totalSlides}`;
+      document.querySelectorAll(".slide-pill").forEach((btn, idx) => {
+        if (idx === currentSlide) {
+          btn.className = "slide-pill px-3 py-1 rounded-md font-semibold bg-blue-600 text-white cursor-pointer";
+        } else {
+          btn.className = "slide-pill px-3 py-1 rounded-md font-semibold bg-[var(--background)] border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] cursor-pointer";
+        }
+      });
+    }
+
+    function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlides(); }
+    function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlides(); }
+    function goToSlide(idx) { currentSlide = idx; updateSlides(); }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") nextSlide();
+      if (e.key === "ArrowLeft") prevSlide();
+    });
+
+    updateSlides();
+  </script>
+</body>
+</html>

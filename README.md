@@ -6,6 +6,8 @@
 
 [![Abrir Conciliador Interativo](https://img.shields.io/badge/🚀_Abrir_Conciliador_de_Ativos-0086ff?style=for-the-badge)](https://gmmarques07.github.io/conciliador-ativos-magalu/)
 [![Apresentação Executiva (Gerência)](https://img.shields.io/badge/📘_Apresentação_Executiva_(Gerência)-0f172a?style=for-the-badge)](https://gmmarques07.github.io/conciliador-ativos-magalu/apresentacao_conciliacao_ativos_magalu.html)
+[![Conciliador Folha de Pagamentos](https://img.shields.io/badge/💙_Conciliador_Folha_(29_Contas)-10b981?style=for-the-badge)](https://gmmarques07.github.io/conciliador-ativos-magalu/Folha%20de%20pagamentos/conciliador_folha_magalu.html)
+[![Documentação Folha de Pagamentos](https://img.shields.io/badge/📂_Pasta_Folha_de_Pagamentos_(Docs)-6366f1?style=for-the-badge)](https://github.com/Gmmarques07/conciliador-ativos-magalu/tree/main/Folha%20de%20pagamentos)
 
 </div>
 
