@@ -47,7 +47,7 @@
         </div>
         <div>
           <h1 class="text-sm font-semibold text-slate-900 leading-none">Conciliação da Folha de Pagamentos (APDATA × XTPG)</h1>
-          <p class="text-[11px] text-slate-500 mt-0.5">O que a Folha gerou (APDATA) × O que o Banco pagou (XTPG) · Saldos do Razão Oracle EBS</p>
+          <p class="text-[11px] text-slate-500 mt-0.5">Folha (APDATA) × Banco (XTPG) × Ajustes (Kirk/Outros) = Saldo do Mês no Razão Oracle EBS</p>
         </div>
       </div>
 
@@ -71,18 +71,19 @@
 
   <main class="max-w-7xl w-full mx-auto px-6 py-6 space-y-6 flex-1">
 
-    <!-- GUIA RÁPIDO DE LEITURA (3 PASSOS SIMPLES) -->
+    <!-- GUIA RÁPIDO DE LEITURA (FÓRMULA EXATA DO RAZÃO) -->
     <section class="bg-blue-50/60 border border-blue-200/80 rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
       <div class="space-y-1">
-        <div class="text-xs font-bold text-blue-900 uppercase tracking-wide">💡 Como ler este painel em 3 segundos:</div>
-        <div class="text-xs text-slate-700 flex flex-wrap gap-x-6 gap-y-1">
-          <span><b>1. Folha (APDATA):</b> Quanto o RH calculou para pagar no mês.</span>
-          <span><b>2. Banco (XTPG):</b> Quanto a Tesouraria efetivamente pagou no banco.</span>
-          <span><b>3. Diferença & Saldo:</b> Se <i>Folha = Banco</i>, a diferença é <b>R$ 0,00 (Conciliado)</b>.</span>
+        <div class="text-xs font-bold text-blue-900 uppercase tracking-wide">💡 Fórmula Exata do Saldo do Mês no Razão (Oracle EBS):</div>
+        <div class="text-xs text-slate-700 flex flex-wrap gap-x-5 gap-y-1 items-center">
+          <span class="bg-white px-2.5 py-1 rounded border border-blue-200 mono font-semibold text-slate-800">
+            - 1. Folha (APDATA) + 2. Pago Banco (XTPG) + 3. Ajuste Kirk/Outros = <b class="text-blue-700">4. Saldo do Mês (GL)</b>
+          </span>
+          <span class="text-slate-600">Ex. <b>2103010001 (Out/26)</b>: <code class="mono">-52.831.005,65 + 48.716.162,16 + 1.192,78 (Kirk) = <b>-4.113.650,71</b></code></span>
         </div>
       </div>
       <div class="shrink-0 text-[11px] text-blue-800 bg-white px-3 py-1.5 rounded-lg border border-blue-200 font-medium">
-        👆 Clique em qualquer conta na tabela para ver os detalhes
+        👆 Clique na conta para ver os lotes e o IDK do Kirk
       </div>
     </section>
 
@@ -140,7 +141,7 @@
         <div class="md:col-span-3 flex items-center gap-2">
           <div class="relative flex-1">
             <label class="block text-[11px] font-medium text-slate-500 mb-1">Buscar Conta ou Lote</label>
-            <input id="globalSearch" oninput="renderActiveTable()" type="text" placeholder="Ex: 2103010001, Quinzena..."
+            <input id="globalSearch" oninput="renderActiveTable()" type="text" placeholder="Ex: 2103010001, 21423213..."
                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-lg pl-3 pr-2 py-2 focus:outline-none focus:border-blue-600 focus:bg-white transition" />
           </div>
           <button id="btnResetFilters" onclick="resetFilters()" class="hidden text-xs text-slate-500 hover:text-slate-900 px-2.5 py-2 rounded-lg hover:bg-slate-100 transition font-medium mt-4">
@@ -151,30 +152,36 @@
       </div>
     </section>
 
-    <!-- 4 KPI CARDS PRINCIPAIS (SIMPLES E DIRETOS) -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5">
-        <span id="kpiLabelCol1" class="text-xs font-medium text-slate-500">1. Gerado pela Folha (APDATA)</span>
-        <div id="kpiLadoApdata" class="text-2xl font-bold text-slate-900 mono mt-1.5">R$ 0,00</div>
-        <div id="kpiSub1" class="text-[11px] text-slate-400 mt-1">—</div>
+    <!-- 5 KPI CARDS PRINCIPAIS (EXATAMENTE AS MESMAS COLUNAS DA TABELA) -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+      <div class="bg-white rounded-xl border border-slate-200/90 p-4">
+        <span class="text-[11px] font-medium text-slate-500">1. Gerado Folha (APDATA C-D)</span>
+        <div id="kpiLadoApdata" class="text-xl font-bold text-slate-900 mono mt-1">R$ 0,00</div>
+        <div id="kpiSub1" class="text-[11px] text-slate-400 mono mt-0.5">—</div>
       </div>
 
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5">
-        <span id="kpiLabelCol2" class="text-xs font-medium text-slate-500">2. Pago pelo Banco (XTPG)</span>
-        <div id="kpiLadoXtpg" class="text-2xl font-bold text-slate-900 mono mt-1.5">R$ 0,00</div>
-        <div id="kpiSub2" class="text-[11px] text-slate-400 mt-1">—</div>
+      <div class="bg-white rounded-xl border border-slate-200/90 p-4">
+        <span class="text-[11px] font-medium text-slate-500">2. Pago Banco (XTPG D-C)</span>
+        <div id="kpiLadoXtpg" class="text-xl font-bold text-slate-900 mono mt-1">R$ 0,00</div>
+        <div id="kpiSub2" class="text-[11px] text-slate-400 mono mt-0.5">—</div>
       </div>
 
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5">
-        <span id="kpiLabelCol3" class="text-xs font-medium text-slate-500">3. Diferença no Mês (Folha - Banco)</span>
-        <div id="kpiValorDiferenca" class="text-2xl font-bold text-amber-600 mono mt-1.5">R$ 0,00</div>
-        <div id="kpiSub3" class="text-[11px] text-slate-500 mt-1">—</div>
+      <div class="bg-white rounded-xl border border-slate-200/90 p-4">
+        <span class="text-[11px] font-medium text-slate-500">3. Ajustes Kirk / Outros (D-C)</span>
+        <div id="kpiLadoKirk" class="text-xl font-bold text-amber-700 mono mt-1">R$ 0,00</div>
+        <div id="kpiSubKirk" class="text-[11px] text-slate-400 mono mt-0.5">—</div>
       </div>
 
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5">
-        <span id="kpiLabelCol4" class="text-xs font-medium text-slate-500">4. Saldo Final da Conta no Razão</span>
-        <div id="kpiSaldoBalances" class="text-2xl font-bold text-blue-700 mono mt-1.5">R$ 0,00</div>
-        <div id="kpiSub4" class="text-[11px] text-slate-400 mt-1">—</div>
+      <div class="bg-white rounded-xl border border-slate-200/90 p-4">
+        <span class="text-[11px] font-medium text-slate-500">4. Saldo do Mês (Movimento GL)</span>
+        <div id="kpiValorDiferenca" class="text-xl font-bold text-slate-900 mono mt-1">R$ 0,00</div>
+        <div id="kpiSub3" class="text-[11px] text-slate-500 mono mt-0.5">—</div>
+      </div>
+
+      <div class="bg-white rounded-xl border border-slate-200/90 p-4">
+        <span class="text-[11px] font-medium text-slate-500">5. Saldo Acumulado (GL_BALANCES)</span>
+        <div id="kpiSaldoBalances" class="text-xl font-bold text-blue-700 mono mt-1">R$ 0,00</div>
+        <div id="kpiSub4" class="text-[11px] text-slate-400 mono mt-0.5">—</div>
       </div>
     </section>
 
@@ -182,7 +189,7 @@
     <section class="bg-white rounded-xl border border-slate-200/90 p-5">
       <div class="flex items-center justify-between mb-4">
         <div>
-          <h2 class="text-xs font-semibold text-slate-800 uppercase tracking-wider">Evolução Mensal (Jan a Nov/2026) — Clique no mês para ver</h2>
+          <h2 class="text-xs font-semibold text-slate-800 uppercase tracking-wider">Evolução Mensal (Jan a Nov/2026) — Clique no mês para filtrar</h2>
         </div>
         <button id="btnAll2026" onclick="selectPeriod('ANO_2026')" class="text-xs text-blue-600 hover:text-blue-800 font-medium">
           Ver Ano 2026 Completo
@@ -201,29 +208,31 @@
             1. Visão por Conta Contábil (<span id="countTabContas">0</span>)
           </button>
           <button id="segNotas" onclick="switchView('LOTES')" class="seg-btn px-3.5 py-1.5 rounded-md text-xs font-medium text-slate-600 flex items-center gap-1.5">
-            2. Lotes Pagos (XTPG) e Verbas (APDATA) (<span id="countTabNotas">0</span>)
+            2. Lotes Pagos (XTPG), Verbas (APDATA) e Ajustes (Kirk) (<span id="countTabNotas">0</span>)
           </button>
         </div>
 
         <!-- Filtros rápidos da aba de Lotes & Verbas -->
         <div id="notaQuickFilters" class="hidden items-center gap-1.5">
           <button id="nfBtn_ALL" onclick="setNotaCauseFilter('ALL')" class="px-2.5 py-1 rounded-md text-xs font-medium bg-slate-900 text-white">Todos</button>
-          <button id="nfBtn_XTPG" onclick="setNotaCauseFilter('XTPG')" class="px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 hover:bg-slate-100">Só Pagamentos Banco (XTPG)</button>
-          <button id="nfBtn_APDATA" onclick="setNotaCauseFilter('APDATA')" class="px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 hover:bg-slate-100">Só Verbas Folha (APDATA)</button>
+          <button id="nfBtn_XTPG" onclick="setNotaCauseFilter('XTPG')" class="px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 hover:bg-slate-100">Banco (XTPG)</button>
+          <button id="nfBtn_APDATA" onclick="setNotaCauseFilter('APDATA')" class="px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 hover:bg-slate-100">Folha (APDATA)</button>
+          <button id="nfBtn_KIRK" onclick="setNotaCauseFilter('KIRK')" class="px-2.5 py-1 rounded-md text-xs font-medium text-slate-600 hover:bg-slate-100">Kirk / Manual / Outros</button>
         </div>
       </div>
 
-      <!-- ABA 1: CONTAS CONTÁBEIS (LIMPA, SEM POLUIÇÃO VISUAL) -->
+      <!-- ABA 1: CONTAS CONTÁBEIS (COM A COLUNA KIRK E O SALDO DO MÊS EXATO) -->
       <div id="tableContasWrap" class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="border-b border-slate-200/80 text-[11px] font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/70">
               <th class="py-3.5 px-5">Conta Contábil</th>
-              <th class="py-3.5 px-3">Emp</th>
-              <th class="py-3.5 px-4 text-right">1. Folha (APDATA)</th>
-              <th class="py-3.5 px-4 text-right">2. Pago Banco (XTPG)</th>
-              <th class="py-3.5 px-4 text-right">3. Diferença (Folha - Banco)</th>
-              <th class="py-3.5 px-4 text-right">4. Saldo Final no Razão</th>
+              <th class="py-3.5 px-2">Emp</th>
+              <th class="py-3.5 px-3 text-right">1. Folha (APDATA C-D)</th>
+              <th class="py-3.5 px-3 text-right">2. Banco (XTPG D-C)</th>
+              <th class="py-3.5 px-3 text-right">3. Kirk / Outros (D-C)</th>
+              <th class="py-3.5 px-3 text-right">4. Saldo do Mês (GL)</th>
+              <th class="py-3.5 px-4 text-right">5. Saldo Final (Razão)</th>
               <th class="py-3.5 px-5 text-right">Situação</th>
             </tr>
           </thead>
@@ -231,17 +240,18 @@
         </table>
       </div>
 
-      <!-- ABA 2: LOTES XTPG & VERBAS APDATA -->
+      <!-- ABA 2: LOTES XTPG, VERBAS APDATA E KIRK -->
       <div id="tableNotasWrap" class="hidden overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="border-b border-slate-200/80 text-[11px] font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/70">
               <th class="py-3 px-5">Data</th>
               <th class="py-3 px-4">Sistema (Origem)</th>
-              <th class="py-3 px-4">Descrição do Lote ou Verba</th>
+              <th class="py-3 px-4">Descrição do Lote, Verba ou IDK Kirk</th>
               <th class="py-3 px-4">Conta</th>
-              <th class="py-3 px-4 text-right">Débito (Saída/Baixa)</th>
-              <th class="py-3 px-5 text-right">Crédito (Folha)</th>
+              <th class="py-3 px-4 text-right">Débito (D)</th>
+              <th class="py-3 px-4 text-right">Crédito (C)</th>
+              <th class="py-3 px-5 text-right">Líquido (D-C)</th>
             </tr>
           </thead>
           <tbody id="tbodyNotas" class="divide-y divide-slate-100 text-xs"></tbody>
@@ -257,7 +267,7 @@
     <div class="fixed inset-y-0 right-0 max-w-xl w-full bg-white shadow-2xl border-l border-slate-200 flex flex-col z-10">
       <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
         <div>
-          <span id="drawerTag" class="text-[10px] font-semibold uppercase tracking-wider text-blue-600">Explicação Detalhada da Conta</span>
+          <span id="drawerTag" class="text-[10px] font-semibold uppercase tracking-wider text-blue-600">Memória de Cálculo da Conta</span>
           <h3 id="drawerTitle" class="text-sm font-semibold text-slate-900 mt-0.5">Detalhes</h3>
         </div>
         <button onclick="closeInspector()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md hover:bg-slate-100 text-xs font-medium">
@@ -271,7 +281,6 @@
   </div>
 
   <script>
-    // Contas principais que confrontam APDATA x XTPG diretamente
     const CONTAS_CORE_XTPG = [
       "2103010001", "2103010002", "2103010003", "2103010005",
       "1107010001", "1107010002", "1107010003", "1107010007",
@@ -279,17 +288,17 @@
     ];
 
     const CONTAS_META = {
-      "2103010001": { desc: "Salários a Pagar (Folha Mensal)", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) lança o salário líquido no fim do mês, e o Banco (XTPG) paga no 5º dia útil do mês seguinte + lotes de Pagamento Extra." },
-      "2103010002": { desc: "Pró-Labore / Honorários Diretoria", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) lança R$ 144.760,03 no mês e o Banco (XTPG) paga exatamente R$ 144.760,03 no 5º dia útil. Bate 100% ao centavo!" },
-      "2103010003": { desc: "Rescisões a Pagar", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) lança a Verba 0545 (Líquido de Rescisão) e o Banco (XTPG) paga os lotes diários de rescisão (prazo legal de até 10 dias)." },
-      "2103010005": { desc: "Salários Trabalhador Intermitente", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) lança a Verba 5315 e o Banco (XTPG) paga nos lotes de Intermitentes." },
+      "2103010001": { desc: "Salários a Pagar (Folha Mensal)", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) credita o salário líquido no fim do mês, o Banco (XTPG) debita o pagamento no 5º dia útil + lotes extras, e eventuais ajustes entram via Kirk (ex: IDK 21423213 de R$ 1.192,78 em Out/26)." },
+      "2103010002": { desc: "Pró-Labore / Honorários Diretoria", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) credita R$ 144.760,03 no mês e o Banco (XTPG) debita exatamente R$ 144.760,03. O Saldo do Mês é R$ 0,00!" },
+      "2103010003": { desc: "Rescisões a Pagar", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) credita a Verba 0545 (Líquido de Rescisão) e o Banco (XTPG) debita os lotes diários de rescisão." },
+      "2103010005": { desc: "Salários Trabalhador Intermitente", grupo: "LIQUIDOS", comoFunciona: "A Folha (APDATA) credita a Verba 5315 e o Banco (XTPG) debita os lotes de Intermitentes." },
 
-      "1107010001": { desc: "Adiantamento Quinzenal (Vale Dia 20)", grupo: "ADIANTAMENTOS", comoFunciona: "O Banco (XTPG) paga o Vale Quinzenal no dia 20 e a Folha (APDATA) desconta no fim do próprio mês (Verba 0520)." },
+      "1107010001": { desc: "Adiantamento Quinzenal (Vale Dia 20)", grupo: "ADIANTAMENTOS", comoFunciona: "O Banco (XTPG) debita o pagamento do Vale Quinzenal no dia 20 e a Folha (APDATA) credita o desconto no fim do mês (Verba 0520)." },
       "1107010002": { desc: "Adiantamento de 13º Salário", grupo: "ADIANTAMENTOS", comoFunciona: "O Banco (XTPG) paga a 1ª parcela do 13º (nas férias ou em novembro) e a Folha (APDATA) desconta no fechamento de Dezembro." },
       "1107010003": { desc: "Adiantamento de Férias", grupo: "ADIANTAMENTOS", comoFunciona: "O Banco (XTPG) paga as férias 2 dias antes do início do descanso e a Folha (APDATA) baixa no fechamento do mês." },
       "1107010007": { desc: "Adiantamento Acordo Sindical / PLR", grupo: "ADIANTAMENTOS", comoFunciona: "O Banco (XTPG) paga o lote de Acordo Sindical e a Folha (APDATA) compensa na folha." },
 
-      "2108010003": { desc: "Pensão Judicial a Pagar", grupo: "ENCARGOS", comoFunciona: "A Folha (APDATA) desconta a pensão no holerite e o Banco (XTPG) transfere para os pensionistas." },
+      "2108010003": { desc: "Pensão Judicial a Pagar", grupo: "ENCARGOS", comoFunciona: "A Folha (APDATA) retém a pensão no holerite e o Banco (XTPG) transfere para os pensionistas." },
       "2103020001": { desc: "INSS a Recolher (Guia Previdenciária)", grupo: "ENCARGOS", comoFunciona: "A Folha (APDATA) apura o INSS do mês e a guia DARF é baixada no mês seguinte (até dia 20)." },
       "2103020002": { desc: "FGTS a Recolher (Guia Caixa)", grupo: "ENCARGOS", comoFunciona: "A Folha (APDATA) apura o FGTS do mês e a guia é paga via Contas a Pagar (Payables) até o dia 20 do mês seguinte." },
       "2104040006": { desc: "IRRF sobre Folha a Recolher", grupo: "ENCARGOS", comoFunciona: "A Folha (APDATA) retém o IRRF e a guia DARF 0561 é liquidada no mês seguinte." },
@@ -340,8 +349,7 @@
     }
 
     function getMeta(conta) {
-      if (CONTAS_META[conta]) return CONTAS_META[conta];
-      return null;
+      return CONTAS_META[conta] || null;
     }
 
     function matchGrupoFilter(conta, contaGrupo, filterGrupo) {
@@ -404,6 +412,8 @@
             xtLiq: 0,
             payLiq: 0,
             kirkLiq: 0,
+            debGL: 0,
+            credGL: 0,
             movMes: 0,
             saldoIni: visao === "ANO_2026" ? (map01[key] || 0) : r.saldoIni,
             saldoFim: visao === "ANO_2026" ? (map11[key] || 0) : r.saldoFim
@@ -418,6 +428,8 @@
         mapContas[key].xtLiq = Number((mapContas[key].xtLiq + (r.xtLiq || 0)).toFixed(2));
         mapContas[key].payLiq = Number((mapContas[key].payLiq + (r.payLiq || 0)).toFixed(2));
         mapContas[key].kirkLiq = Number((mapContas[key].kirkLiq + (r.kirkLiq || 0)).toFixed(2));
+        mapContas[key].debGL = Number((mapContas[key].debGL + (r.debGL || 0)).toFixed(2));
+        mapContas[key].credGL = Number((mapContas[key].credGL + (r.credGL || 0)).toFixed(2));
         mapContas[key].movMes = Number((mapContas[key].movMes + (r.movMes || 0)).toFixed(2));
         if (visao !== "ANO_2026") {
           mapContas[key].saldoIni = Number((r.saldoIni || 0).toFixed(2));
@@ -426,23 +438,29 @@
       });
 
       let contas = Object.values(mapContas).map(c => {
+        // 1. Folha (APDATA C - D)
         const valorFolha = c.apLiq;
-        const guiaViaKirk = (c.conta === "2103020001" || c.conta === "2104040006") && c.kirkLiq > 0 ? c.kirkLiq : 0;
-        const valorBanco = Number((c.xtLiq + c.payLiq + guiaViaKirk).toFixed(2));
-        const diferenca = Number((valorFolha - valorBanco).toFixed(2));
+        // 2. Pago Banco (XTPG D - C)
+        const valorBanco = c.xtLiq;
+        // 3. Kirk / Manual / Payables / Outros (D - C) -> fecha 100% com movMes: -valorFolha + valorBanco + valorKirkOutros = movMes
+        const valorKirkOutros = Number((c.movMes - (valorBanco - valorFolha)).toFixed(2));
+        // 4. Saldo do Mês (Movimento Líquido GL = Débito Total - Crédito Total)
+        const saldoMes = c.movMes;
 
         let status = "CICLO";
-        let statusTexto = "Pago no Mês Seguinte (5º Dia Útil)";
-        if (Math.abs(diferenca) <= 100 || Math.abs(c.saldoFim) <= 100) {
+        let statusTexto = "Liquida no 5º Dia Útil (M+1)";
+        if (Math.abs(saldoMes) <= 100 || Math.abs(c.saldoFim) <= 100) {
           status = "OK";
-          statusTexto = Math.abs(diferenca) <= 1 ? "Bateu 100% (R$ 0,00)" : "Conciliado";
+          statusTexto = Math.abs(saldoMes) <= 1 ? "Bateu 100% (R$ 0,00)" : "Conciliado";
         } else if (visao === "MES_11_26" && valorFolha === 0 && valorBanco > 0) {
           status = "CICLO";
-          statusTexto = "Pagou Folha Out · Aguarda Folha 30/11";
+          statusTexto = "Pagou Folha Out · Aguarda 30/11";
+        } else if (Math.abs(valorKirkOutros) > 0.01) {
+          statusTexto = "Ciclo M+1 · Com Ajuste Kirk";
         }
 
         const vol = Math.max(Math.abs(valorFolha), Math.abs(valorBanco), Math.abs(c.saldoFim));
-        return { ...c, valorFolha, valorBanco, diferenca, status, statusTexto, vol };
+        return { ...c, valorFolha, valorBanco, valorKirkOutros, saldoMes, status, statusTexto, vol };
       }).sort((a, b) => b.vol - a.vol);
 
       let perFiltro = visao.startsWith("MES_") ? visao.replace("MES_", "").replace("_", "-") : null;
@@ -468,7 +486,8 @@
 
       const totalFolha = contas.reduce((a, b) => a + b.valorFolha, 0);
       const totalBanco = contas.reduce((a, b) => a + b.valorBanco, 0);
-      const totalDif = Number((totalFolha - totalBanco).toFixed(2));
+      const totalKirk = contas.reduce((a, b) => a + b.valorKirkOutros, 0);
+      const totalSaldoMes = contas.reduce((a, b) => a + b.saldoMes, 0);
       const totalSaldoFim = contas.reduce((a, b) => a + b.saldoFim, 0);
 
       document.getElementById("kpiLadoApdata").innerText = fmtCompact(totalFolha);
@@ -477,8 +496,11 @@
       document.getElementById("kpiLadoXtpg").innerText = fmtCompact(totalBanco);
       document.getElementById("kpiSub2").innerText = fmtBRL(totalBanco);
 
-      document.getElementById("kpiValorDiferenca").innerText = fmtCompact(totalDif);
-      document.getElementById("kpiSub3").innerText = fmtBRL(totalDif);
+      document.getElementById("kpiLadoKirk").innerText = fmtCompact(totalKirk);
+      document.getElementById("kpiSubKirk").innerText = fmtBRL(totalKirk);
+
+      document.getElementById("kpiValorDiferenca").innerText = fmtCompact(totalSaldoMes);
+      document.getElementById("kpiSub3").innerText = fmtBRL(totalSaldoMes);
 
       document.getElementById("kpiSaldoBalances").innerText = fmtCompact(totalSaldoFim);
       document.getElementById("kpiSub4").innerText = fmtBRL(totalSaldoFim);
@@ -500,7 +522,7 @@
           const meta = getMeta(r.conta);
           if (!meta || !matchGrupoFilter(r.conta, meta.grupo, grp)) return;
           sumAp += Math.max(0, r.apLiq || 0);
-          sumXt += Math.max(0, (r.xtLiq || 0) + (r.payLiq || 0));
+          sumXt += Math.max(0, r.xtLiq || 0);
         });
         const total = Math.max(sumAp, sumXt);
         return { ...m, total, sumAp, sumXt };
@@ -557,7 +579,7 @@
 
     function setNotaCauseFilter(f) {
       activeNotaCause = f;
-      ["ALL", "XTPG", "APDATA"].forEach(k => {
+      ["ALL", "XTPG", "APDATA", "KIRK"].forEach(k => {
         const btn = document.getElementById("nfBtn_" + k);
         if (!btn) return;
         btn.className = (k === activeNotaCause)
@@ -581,7 +603,7 @@
       });
 
       if (rows.length === 0) {
-        document.getElementById("tbodyContas").innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">Nenhuma conta encontrada.</td></tr>`;
+        document.getElementById("tbodyContas").innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400">Nenhuma conta encontrada.</td></tr>`;
         return;
       }
 
@@ -589,6 +611,8 @@
         const badge = c.status === "OK"
           ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>${c.statusTexto}</span>`
           : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-sky-50 text-sky-700"><span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>${c.statusTexto}</span>`;
+
+        const kirkColor = Math.abs(c.valorKirkOutros) > 0.005 ? "text-amber-700 font-semibold" : "text-slate-400";
 
         return `
           <tr onclick="openAccountInspector('${c.conta}', '${c.emp}')" class="hover:bg-blue-50/40 cursor-pointer transition">
@@ -598,10 +622,11 @@
                 <span class="font-semibold text-slate-900">${c.desc}</span>
               </div>
             </td>
-            <td class="py-4 px-3 mono text-slate-500 font-medium">${c.emp}</td>
-            <td class="py-4 px-4 text-right mono font-semibold text-slate-900">${fmtBRL(c.valorFolha)}</td>
-            <td class="py-4 px-4 text-right mono font-semibold text-slate-900">${fmtBRL(c.valorBanco)}</td>
-            <td class="py-4 px-4 text-right mono font-semibold ${Math.abs(c.diferenca) <= 100 ? 'text-emerald-600' : 'text-amber-700'}">${fmtBRL(c.diferenca)}</td>
+            <td class="py-4 px-2 mono text-slate-500 font-medium">${c.emp}</td>
+            <td class="py-4 px-3 text-right mono font-semibold text-slate-900">${fmtBRL(c.valorFolha)}</td>
+            <td class="py-4 px-3 text-right mono font-semibold text-slate-900">${fmtBRL(c.valorBanco)}</td>
+            <td class="py-4 px-3 text-right mono ${kirkColor}">${fmtBRL(c.valorKirkOutros)}</td>
+            <td class="py-4 px-3 text-right mono font-bold ${Math.abs(c.saldoMes) <= 0.05 ? 'text-emerald-600' : 'text-slate-900'}">${fmtBRL(c.saldoMes)}</td>
             <td class="py-4 px-4 text-right mono font-semibold text-blue-700">${fmtBRL(c.saldoFim)}</td>
             <td class="py-4 px-5 text-right">${badge}</td>
           </tr>
@@ -614,19 +639,23 @@
       const rows = state.lotesBase.filter(l => {
         if (activeNotaCause === "XTPG" && l.origem !== "XTPG") return false;
         if (activeNotaCause === "APDATA" && l.origem !== "APDATA") return false;
-        if (q && !(l.conta.toLowerCase().includes(q) || (l.hist || "").toLowerCase().includes(q) || (l.verba || "").toLowerCase().includes(q))) return false;
+        if (activeNotaCause === "KIRK" && (l.origem === "XTPG" || l.origem === "APDATA")) return false;
+        if (q && !(l.conta.toLowerCase().includes(q) || (l.hist || "").toLowerCase().includes(q) || (l.verba || "").toLowerCase().includes(q) || l.origem.toLowerCase().includes(q))) return false;
         return true;
       });
 
       if (rows.length === 0) {
-        document.getElementById("tbodyNotas").innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">Selecione Setembro, Outubro ou Novembro/2026 para ver os lotes detalhados.</td></tr>`;
+        document.getElementById("tbodyNotas").innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">Selecione Setembro, Outubro ou Novembro/2026 para ver os lotes detalhados.</td></tr>`;
         return;
       }
 
       document.getElementById("tbodyNotas").innerHTML = rows.map(l => {
-        const badge = l.origem === "XTPG"
-          ? `<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Banco (XTPG)</span>`
-          : `<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">Folha (${l.origem})</span>`;
+        let badge = `<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">${l.origem}</span>`;
+        if (l.origem === "XTPG") {
+          badge = `<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Banco (XTPG)</span>`;
+        } else if (l.origem === "APDATA") {
+          badge = `<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">Folha (APDATA)</span>`;
+        }
 
         return `
           <tr class="hover:bg-slate-50">
@@ -635,7 +664,8 @@
             <td class="py-3 px-4 font-medium text-slate-900">${l.verba ? 'Verba ' + l.verba + ' · ' : ''}${l.hist}</td>
             <td class="py-3 px-4 mono text-blue-600 font-semibold">${l.conta} <span class="text-slate-400 font-normal">· Emp ${l.emp}</span></td>
             <td class="py-3 px-4 text-right mono font-medium text-slate-900">${fmtBRL(l.deb)}</td>
-            <td class="py-3 px-5 text-right mono font-medium text-slate-900">${fmtBRL(l.cred)}</td>
+            <td class="py-3 px-4 text-right mono font-medium text-slate-900">${fmtBRL(l.cred)}</td>
+            <td class="py-3 px-5 text-right mono font-semibold text-slate-900">${fmtBRL(l.liq)}</td>
           </tr>
         `;
       }).join("");
@@ -646,19 +676,37 @@
       const c = state.contas.find(x => x.conta === contaCode && (!empCode || x.emp === empCode)) || state.contas.find(x => x.conta === contaCode);
       if (!c) return;
 
-      const lotesConta = (FOLHA_BUNDLE.lotes || []).filter(l => l.conta === c.conta && l.emp === c.emp).slice(0, 15);
+      let perFiltro = state.visao.startsWith("MES_") ? state.visao.replace("MES_", "").replace("_", "-") : null;
+      const lotesContaAll = (FOLHA_BUNDLE.lotes || []).filter(l => l.conta === c.conta && l.emp === c.emp && (!perFiltro || l.per === perFiltro));
+      const lotesKirk = lotesContaAll.filter(l => l.origem !== "APDATA" && l.origem !== "XTPG");
+      const lotesPrincipais = lotesContaAll.slice(0, 15);
 
       document.getElementById("drawerTag").innerText = `Conta ${c.conta} · Empresa ${c.emp}`;
       document.getElementById("drawerTitle").innerText = c.desc;
 
-      const lotesHtml = lotesConta.map(l => `
+      const kirkHighlightHtml = lotesKirk.length > 0 ? `
+        <div class="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 space-y-2">
+          <div class="text-xs font-bold text-amber-900">📌 Lançamentos Kirk / Outros no Período (${fmtBRL(c.valorKirkOutros)}):</div>
+          ${lotesKirk.map(k => `
+            <div class="flex items-center justify-between text-xs bg-white p-2 rounded border border-amber-200/80">
+              <div>
+                <span class="font-bold text-amber-800">${k.origem}</span> · <span class="mono text-slate-700">${k.dt}</span>
+                <div class="text-[11px] text-slate-600 mt-0.5">${k.hist}</div>
+              </div>
+              <span class="mono font-bold text-amber-900 shrink-0 ml-2">${fmtBRL(k.liq)}</span>
+            </div>
+          `).join("")}
+        </div>
+      ` : "";
+
+      const lotesHtml = lotesPrincipais.map(l => `
         <div class="p-2.5 rounded-lg border border-slate-200 flex items-center justify-between gap-2">
           <div class="truncate">
-            <div class="text-xs font-semibold text-slate-900 truncate">${l.origem === 'XTPG' ? '🏦 Banco (XTPG)' : '📄 Folha (APDATA)'} · ${l.hist}</div>
-            <div class="text-[11px] text-slate-500 mono mt-0.5">Data: ${l.dt}</div>
+            <div class="text-xs font-semibold text-slate-900 truncate">${l.origem === 'XTPG' ? '🏦 Banco (XTPG)' : (l.origem === 'APDATA' ? '📄 Folha (APDATA)' : '🛠️ ' + l.origem)} · ${l.hist}</div>
+            <div class="text-[11px] text-slate-500 mono mt-0.5">Data: ${l.dt} · D: ${fmtBRL(l.deb)} | C: ${fmtBRL(l.cred)}</div>
           </div>
           <div class="mono text-xs font-semibold shrink-0 text-slate-900">
-            ${fmtBRL(Math.max(l.deb, l.cred))}
+            ${fmtBRL(l.liq)}
           </div>
         </div>
       `).join("");
@@ -669,28 +717,25 @@
           ${c.comoFunciona}
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
-            <div class="text-[11px] text-slate-500">1. Gerado na Folha (APDATA)</div>
-            <div class="mono text-sm font-bold text-slate-900 mt-1">${fmtBRL(c.valorFolha)}</div>
-            <div class="text-[10px] text-slate-400 mono mt-1">Crédito: ${fmtBRL(c.apCred)} | Débito: ${fmtBRL(c.apDeb)}</div>
-          </div>
-          <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
-            <div class="text-[11px] text-slate-500">2. Pago no Banco (XTPG)</div>
-            <div class="mono text-sm font-bold text-slate-900 mt-1">${fmtBRL(c.valorBanco)}</div>
-            <div class="text-[10px] text-slate-400 mono mt-1">Débito: ${fmtBRL(c.xtDeb)} | Crédito: ${fmtBRL(c.xtCred)}</div>
-          </div>
+        <div class="p-4 rounded-lg border border-slate-200 space-y-2 text-xs bg-slate-50/60">
+          <div class="font-bold text-slate-800 border-b border-slate-200 pb-1.5">1. Memória do Movimento do Mês (GL_JE_LINES)</div>
+          <div class="flex justify-between"><span class="text-slate-600">(-) Gerado na Folha (APDATA C-D):</span><span class="mono font-semibold text-slate-900">${fmtBRL(-c.valorFolha)} <span class="text-[10px] text-slate-400">(C: ${fmtCompact(c.apCred)} | D: ${fmtCompact(c.apDeb)})</span></span></div>
+          <div class="flex justify-between"><span class="text-slate-600">(+) Pago no Banco (XTPG D-C):</span><span class="mono font-semibold text-slate-900">${fmtBRL(c.valorBanco)} <span class="text-[10px] text-slate-400">(D: ${fmtCompact(c.xtDeb)} | C: ${fmtCompact(c.xtCred)})</span></span></div>
+          <div class="flex justify-between"><span class="text-amber-800 font-medium">(+) Ajustes Kirk / Outros (D-C):</span><span class="mono font-bold text-amber-700">${fmtBRL(c.valorKirkOutros)}</span></div>
+          <div class="flex justify-between pt-2 border-t border-slate-200"><span class="font-bold text-slate-900">(=) 4. Saldo do Mês (Movimento GL):</span><span class="mono font-bold text-slate-900 text-sm">${fmtBRL(c.saldoMes)}</span></div>
         </div>
 
-        <div class="p-4 rounded-lg border border-slate-200 space-y-2.5 text-xs">
-          <div class="font-semibold text-slate-800 border-b border-slate-100 pb-1.5">Composição do Saldo da Conta no Razão (GL_BALANCES)</div>
-          <div class="flex justify-between"><span class="text-slate-500">Saldo que veio do mês anterior (Saldo Inicial):</span><span class="mono font-medium text-slate-800">${fmtBRL(c.saldoIni)}</span></div>
-          <div class="flex justify-between"><span class="text-slate-500">Movimento líquido deste período:</span><span class="mono font-medium text-slate-800">${fmtBRL(c.movMes)}</span></div>
-          <div class="flex justify-between pt-2 border-t border-slate-100"><span class="font-semibold text-slate-900">Saldo Final da Conta no Razão:</span><span class="mono font-bold text-blue-700 text-sm">${fmtBRL(c.saldoFim)}</span></div>
+        ${kirkHighlightHtml}
+
+        <div class="p-4 rounded-lg border border-slate-200 space-y-2 text-xs">
+          <div class="font-bold text-slate-800 border-b border-slate-100 pb-1.5">2. Composição do Saldo Acumulado no Razão (GL_BALANCES)</div>
+          <div class="flex justify-between"><span class="text-slate-500">Saldo Inicial (veio do mês anterior):</span><span class="mono font-medium text-slate-800">${fmtBRL(c.saldoIni)}</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">(+) Saldo do Mês (Movimento GL):</span><span class="mono font-medium text-slate-800">${fmtBRL(c.saldoMes)}</span></div>
+          <div class="flex justify-between pt-2 border-t border-slate-100"><span class="font-bold text-slate-900">(=) 5. Saldo Final Acumulado no Razão:</span><span class="mono font-bold text-blue-700 text-sm">${fmtBRL(c.saldoFim)}</span></div>
         </div>
 
         <div>
-          <h4 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Principais Lotes do Banco (XTPG) e Verbas da Folha (APDATA)</h4>
+          <h4 class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Lotes do Banco (XTPG), Verbas (APDATA) e Ajustes (${lotesPrincipais.length})</h4>
           <div class="space-y-2">${lotesHtml || '<div class="text-xs text-slate-400">Selecione Setembro, Outubro ou Novembro para ver os lotes.</div>'}</div>
         </div>
       `;
@@ -705,17 +750,20 @@
 
     function openSqlModal() {
       document.getElementById("drawerTag").innerText = "Query Oficial · Oracle EBS (MLPEBS)";
-      document.getElementById("drawerTitle").innerText = "Query Simples: APDATA × XTPG por Conta";
+      document.getElementById("drawerTitle").innerText = "Query Completa: APDATA × XTPG × Kirk = Saldo do Mês";
 
       const fullSql = `SELECT
     gjl.period_name                                                          AS periodo,
     gcc.segment1                                                             AS empresa,
     gcc.segment3                                                             AS conta_contabil,
     ROUND(SUM(CASE WHEN gjh.je_source = '12' OR UPPER(gjst.user_je_source_name) = 'APDATA'
-                   THEN NVL(gjl.entered_cr, 0) - NVL(gjl.entered_dr, 0) ELSE 0 END), 2) AS folha_apdata,
+                   THEN NVL(gjl.entered_cr, 0) - NVL(gjl.entered_dr, 0) ELSE 0 END), 2) AS folha_apdata_c_d,
     ROUND(SUM(CASE WHEN gjh.je_source = '454' OR UPPER(gjst.user_je_source_name) = 'XTPG'
-                   THEN NVL(gjl.entered_dr, 0) - NVL(gjl.entered_cr, 0) ELSE 0 END), 2) AS banco_xtpg,
-    ROUND(SUM(NVL(gjl.entered_dr, 0) - NVL(gjl.entered_cr, 0)), 2)           AS movimento_mes
+                   THEN NVL(gjl.entered_dr, 0) - NVL(gjl.entered_cr, 0) ELSE 0 END), 2) AS banco_xtpg_d_c,
+    ROUND(SUM(CASE WHEN gjh.je_source NOT IN ('12', '454')
+                    AND UPPER(NVL(gjst.user_je_source_name, '?')) NOT IN ('APDATA', 'XTPG')
+                   THEN NVL(gjl.entered_dr, 0) - NVL(gjl.entered_cr, 0) ELSE 0 END), 2) AS kirk_outros_d_c,
+    ROUND(SUM(NVL(gjl.entered_dr, 0) - NVL(gjl.entered_cr, 0)), 2)           AS saldo_mov_mes
 FROM gl.gl_je_lines             gjl
 JOIN gl.gl_je_headers           gjh  ON gjh.je_header_id        = gjl.je_header_id
 JOIN gl.gl_je_batches           gjb  ON gjb.je_batch_id         = gjh.je_batch_id
@@ -731,7 +779,7 @@ ORDER BY gjl.period_name DESC, gcc.segment3;`;
       document.getElementById("drawerBody").innerHTML = `
         <div class="p-4 rounded-lg bg-slate-900 text-slate-100 space-y-2">
           <div class="flex items-center justify-between">
-            <span class="text-[10px] font-semibold uppercase tracking-wider text-blue-300">SQL · APDATA × XTPG</span>
+            <span class="text-[10px] font-semibold uppercase tracking-wider text-blue-300">SQL · APDATA × XTPG × Kirk</span>
             <button onclick="navigator.clipboard.writeText(document.getElementById('fullSqlCode').innerText); this.innerText='✓ Copiado!';" class="text-xs bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 rounded font-medium cursor-pointer">Copiar Query</button>
           </div>
           <pre id="fullSqlCode" class="mono text-[11px] text-slate-200 overflow-x-auto whitespace-pre leading-relaxed">${fullSql}</pre>
